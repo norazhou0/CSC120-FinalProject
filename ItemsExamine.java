@@ -1,0 +1,3 @@
+public enum ItemsExamine {
+    ACORN, APPLE, DRESS, BOX, LAPTOP, STATUE, LIBRARY, FOREST, WATERFALL
+}
