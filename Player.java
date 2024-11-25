@@ -47,6 +47,7 @@ public class Player extends Character {
         this.alive = status;
     }
 
+    /* Methods */
     public void examine (ItemsExamine item){
         if (item.equals(ItemsExamine.ACORN)) {
             System.out.println("...");
@@ -82,6 +83,26 @@ public class Player extends Character {
             this.setAlive(false);
             System.out.println("The backpack is overloaded!");
         }
+    }
+
+    public void drop(ItemsGrab item) {
+        String itemName = item.name();
+        // Check if the item exists in the backpack and has a count > 0
+        if (this.backpack.containsKey(itemName) && this.backpack.get(itemName) > 0) {
+            int currentCount = this.backpack.get(itemName);
+            
+            if (currentCount > 1) {
+                // Decrease the count by 1
+
+                this.backpack.put(itemName, currentCount - 1);
+            } else {
+                // Remove the item entirely if the count is 0 after dropping
+                this.backpack.remove(itemName);
+            }
+        } else {
+            System.out.println("Cannot drop the item.");
+        }
+    }
 
     
 }
