@@ -42,6 +42,11 @@ public class Player extends Character {
         return this.alive;
     }
 
+    /* Setters */
+    public void setAlive(boolean status) {
+        this.alive = status;
+    }
+
     public void examine (ItemsExamine item){
         if (item.equals(ItemsExamine.ACORN)) {
             System.out.println("...");
@@ -64,7 +69,19 @@ public class Player extends Character {
         }
     }
 
-
+    
+    public void grab (ItemsGrab item) {
+        int totalNumItem = 0;
+        for (int quantity : this.backpack.values()) {
+            totalNumItem += quantity;
+        }
+        if (totalNumItem < 20) {
+            String itemName = item.name();
+            backpack.put(itemName, 1);
+        } else {
+            this.setAlive(false);
+            System.out.println("The backpack is overloaded!");
+        }
 
     
 }
