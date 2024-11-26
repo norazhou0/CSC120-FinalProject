@@ -57,8 +57,6 @@ public class Player extends Character {
             System.out.println("...");
         } else if (item.equals(ItemsExamine.DRESS)) {
             System.out.println("...");
-        } else if (item.equals(ItemsExamine.BOX)) {
-            System.out.println("...");
         } else if (item.equals(ItemsExamine.LAPTOP)) {
             System.out.println("...");
         } else if (item.equals(ItemsExamine.APPLE)) {
@@ -75,19 +73,38 @@ public class Player extends Character {
     }
 
     
-    public void grab (ItemsGrab item) {
-        int totalNumItem = 0;
+    public void grab(ItemsGrab item) {
+        String itemName = item.name(); // Get the item's name
+    
+        // Allow Acorn to be grabbed multiple times
+        if (itemName.equalsIgnoreCase("ACORN")) {
+            int currentCount = backpack.getOrDefault(itemName, 0);
+            backpack.put(itemName, currentCount + 1); // Increment the count of Acorn
+            System.out.println("You grabbed an acorn! Total acorns: " + backpack.get(itemName));
+            return; // Exit early since Acorn has a special rule
+        }
+    
+        // Check if the item is already in the backpack (avoid grab repetitively)
+        if (backpack.containsKey(itemName)) {
+            System.out.println("You already have the " + itemName.toLowerCase() + " in your backpack!");
+            return; // Exit the method, no further action needed
+        }
+    
+        int totalNumItem = 0; // Track total items in the backpack
         for (int quantity : this.backpack.values()) {
             totalNumItem += quantity;
         }
+    
+        // Check backpack capacity
         if (totalNumItem < 20) {
-            String itemName = item.name();
-            backpack.put(itemName, 1);
+            backpack.put(itemName, 1); // Add the item to the backpack
+            System.out.println("You grabbed the " + itemName.toLowerCase() + "!");
         } else {
-            this.setAlive(false);
-            System.out.println("The backpack is overloaded!");
+            this.setAlive(false); // Player dies due to overload
+            System.out.println("The backpack is overloaded! Your canoe collapsed! You drowned and died.");
         }
     }
+    
 
     public void drop(ItemsGrab item) {
         String itemName = item.name();
@@ -174,7 +191,6 @@ public class Player extends Character {
         boolean exploring = true; // Keep track of the exploration status
     
         while (exploring) {
-            System.out.println("What would you like to do? (type 'examine oak' to inspect, 'leave' to exit)");
             String command = scanner.nextLine().toLowerCase();
     
             if (command.equals("examine oak")) {
@@ -201,6 +217,73 @@ public class Player extends Character {
             } else if (command.equals("leave")) {
                 System.out.println("You left the forest.");
                 exploring = false; // End the loop
+            } else {
+                System.out.println("Unknown command. Do you want to leave?");
+            }
+        }
+    }
+    
+
+    private void enterLibrary() {
+        System.out.println("You entered the library. There are four mysterious boxes here: one is yellow, one is blue, one is white, and one is silver.");
+        Scanner scanner = new Scanner(System.in);
+        
+        boolean exploring = true; // Keep track of the exploration status
+        
+        while (exploring) {
+            System.out.println("What would you like to do? (type 'examine [box color]' or 'leave')");
+            String command = scanner.nextLine().toLowerCase();
+    
+            // Yellow box with recipe
+            if (command.equals("examine yellow box")) {
+                System.out.println("There is a tag with some words on the box, but it was blurred by water. You can faintly make out two words: Julia and cook. Do you want to open it? (yes/no)");
+                String responseA = scanner.nextLine().toLowerCase();
+                if (responseA.equals("yes")) {
+                    grab(ItemsGrab.RECIPE);
+                    System.out.println("You got Julia Child's recipe!");
+                } else {
+                    System.out.println("OK. Do you want to check other box?");
+                }
+    
+            // White box with laptop
+            } else if (command.equals("examine white box")) {
+                System.out.println("This box looks familiar. You seem to have seen it in a CSC class before. Do you want to open it? (yes/no)");
+                String responseB = scanner.nextLine().toLowerCase();
+                if (responseB.equals("yes")) {
+                    grab(ItemsGrab.LAPTOP);
+                    System.out.println("You got Jordan's laptop!");
+                } else {
+                    System.out.println("OK. Do you want to check other box?");
+                }
+    
+            // Blue box with book
+            } else if (command.equals("examine blue box")) {
+                System.out.println("The box is small and old. You’ve never seen it before. Do you want to open it? (yes/no)");
+                String responseC = scanner.nextLine().toLowerCase();
+                if (responseC.equals("yes")) {
+                    grab(ItemsGrab.BOOK);
+                    System.out.println("You got a mysterious book!");
+                } else {
+                    System.out.println("OK. Do you want to check other box?");
+                }
+    
+            // Silver box with tool
+            } else if (command.equals("examine silver box")) {
+                System.out.println("The box is big and heavy. Do you want to open it? (yes/no)");
+                String responseD = scanner.nextLine().toLowerCase();
+                if (responseD.equals("yes")) {
+                    grab(ItemsGrab.TOOL);
+                    System.out.println("You got a Cross tool!");
+                } else {
+                    System.out.println("OK. Do you want to check other box?");
+                }
+    
+            // Leave library
+            } else if (command.equals("leave")) {
+                System.out.println("You left the library.");
+                exploring = false; // End the loop
+    
+            // Unknown command
             } else {
                 System.out.println("Unknown command. Do you want to leave?");
             }
