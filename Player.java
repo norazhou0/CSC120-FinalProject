@@ -50,8 +50,12 @@ public class Player extends Character {
         this.alive = status;
     }
 
-    /* Methods */
-    /* ACORN, APPLE, DRESS, RECIPE, BOX, TOOL, LAPTOP, BOOK, OKA */
+
+    /** 
+     * The method that allows the player to examine items
+     * @param item able to be examined
+     */
+    // ACORN, APPLE, DRESS, RECIPE, BOX, TOOL, LAPTOP, BOOK, OKA //
     public void examine (ItemsExamine item){
         if (item.equals(ItemsExamine.ACORN)) {
             System.out.println("...");
@@ -66,21 +70,25 @@ public class Player extends Character {
         } else if (item.equals(ItemsExamine.TOOL)) {
             System.out.println("It's Cross. A 19the century silver craft originally stored in SCMA. It's 30 cm tall. Hummm...That's pretty long");
         } else if (item.equals(ItemsExamine.OKA)) {
-            System.out.println("There is a white dress on the tree.However, you are not tall enough to reach it.");
+            System.out.println("There is a white dress on the tree. However, you are not tall enough to reach it.");
         } else {
             System.out.println("It's just a/an" + item + ".");
         }
     }
 
-    
+
+    /** 
+     * The method that allows the player to grab items
+     * @param item able to be grabbed
+     */
     public void grab(ItemsGrab item) {
-        String itemName = item.name(); // Get the item's name
+        String itemName = item.name(); // Get the name of the item
     
         // Allow Acorn to be grabbed multiple times
         if (itemName.equalsIgnoreCase("ACORN")) {
             int currentCount = backpack.getOrDefault(itemName, 0);
             backpack.put(itemName, currentCount + 1); // Increment the count of Acorn
-            System.out.println("You grabbed an acorn! Total acorns: " + backpack.get(itemName));
+            System.out.println("You've grabbed an acorn! Total acorns: " + backpack.get(itemName));
             return; // Exit early since Acorn has a special rule
         }
     
@@ -101,11 +109,14 @@ public class Player extends Character {
             System.out.println("You grabbed the " + itemName.toLowerCase() + "!");
         } else {
             this.setAlive(false); // Player dies due to overload
-            System.out.println("The backpack is overloaded! Your canoe collapsed! You drowned and died.");
+            System.out.println("The backpack is overloaded! Your kayak collapsed! You drowned and died.");
         }
     }
     
-
+    /** 
+     * The method that allows the player to drop items
+     * @param item able to be dropped
+     */
     public void drop(ItemsGrab item) {
         String itemName = item.name();
         // Check if the item exists in the backpack and has a count > 0
@@ -125,6 +136,7 @@ public class Player extends Character {
         }
     }
 
+
     public void setLocationColumn(int column) {
         this.locationColumn = column;
     }
@@ -133,6 +145,10 @@ public class Player extends Character {
         this.locationColumn = row;
     }
 
+    /** 
+     * The method that allows the player to move
+     * @param input for moving direction
+     */
     public void move(String input) {
         // Ensure case-insensitivity
         input = input.toLowerCase();
@@ -171,6 +187,10 @@ public class Player extends Character {
         }        
     }
 
+
+    /** 
+     * The method that handles the waterfall scenario
+     */
     private void handleWaterfall() {
         System.out.println("You fell into a waterfall!");
         double chance = Math.random(); // Generate a random number between 0 and 1
@@ -183,6 +203,9 @@ public class Player extends Character {
         }
     }
     
+    /** 
+     * The method that handles the forest scenario
+     */
     private void handleForest() {
         System.out.println("You wandered into the forest. The air feels different here...");
         System.out.println("There looks to be something in the Oak.");
@@ -223,7 +246,9 @@ public class Player extends Character {
         }
     }
     
-
+    /** 
+     * The method that handles the library scenario
+     */
     private void enterLibrary() {
         System.out.println("You entered the library. There are four mysterious boxes here: one is yellow, one is blue, one is white, and one is silver.");
         Scanner scanner = new Scanner(System.in);
@@ -305,6 +330,10 @@ public class Player extends Character {
     //     }
     // }
     
+
+    /** 
+     * The method that handles the statue scenario
+     */
     private void interactWithStatue() {
         System.out.println("You encountered a statue! It asks for a specific item from your backpack.");
         Scanner scanner = new Scanner(System.in);
