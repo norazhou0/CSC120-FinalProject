@@ -308,27 +308,13 @@ public class Player extends Character {
                 System.out.println("You left the library.");
                 exploring = false; // End the loop
     
-            // Unknown command
+            // catch error
             } else {
                 System.out.println("Unknown command. Do you want to leave?");
             }
         }
     }
     
-
-    // private void enterLibrary() {
-    //     System.out.println("You entered the library. There are four mysterious boxes here.");
-    //     Scanner scanner = new Scanner(System.in);
-    
-    //     for (ItemsGrab item : ItemsGrab.values()) {
-    //         System.out.println("You see a " + item.name().toLowerCase() + ". Do you want to grab it? (yes/no)");
-    //         String response = scanner.nextLine().toLowerCase();
-    //         if (response.equals("yes")) {
-    //             grab(item);
-    //             System.out.println("You grabbed the " + item.name().toLowerCase() + "!");
-    //         }
-    //     }
-    // }
     
 
     /** 
