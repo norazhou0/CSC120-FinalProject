@@ -137,6 +137,27 @@ public class Player extends Character {
     }
 
 
+    // Check for acorn and handle interaction
+    public void collectAcorn(scMap map) {
+        int index = locationRow * 10 + locationColumn;
+        if (scMap.hasAcorn(index)) { // Check if an acorn exists at the current position
+            System.out.println("There is an acorn here. Do you want to collect it? (yes/no)");
+            Scanner scanner = new Scanner(System.in);
+            String response = scanner.nextLine().toLowerCase();
+
+            if (response.equals("yes")) {
+                grab(ItemsGrab.ACRON); // Add the acorn to the backpack
+                scMap.removeAcorn(index); // Remove the acorn from the map
+                System.out.println("You collected an acorn!");
+            } else {
+                System.out.println("You chose not to collect the acorn.");
+            }
+        } else {
+            System.out.println("There's no acorn here.");
+        }
+    }
+
+
     public void setLocationColumn(int column) {
         this.locationColumn = column;
     }
@@ -334,7 +355,28 @@ public class Player extends Character {
         }
     }
     
-
+    // interact with raccoon)
+    public void interactWithRaccoon(Raccoon raccoon) {
+        if (this.getLocationRow() == raccoon.getLocationRow() && this.getLocationColumn() == raccoon.getLocationColumn()) {
+            System.out.println("You encounter a rabbit raccoon. It looks at you with pleading face and says, 'I've lost my way to home. Can you take me to the forest?'");
+            Scanner scanner = new Scanner(System.in);
+            String response = scanner.nextLine().toLowerCase();
+    
+            if (response.equals("yes")) {
+                raccoon.onBoard(this); // Raccoon follows the player
+                System.out.println("You agreed to help the raccoon. Lead it to the forest!");
+            } else {
+                System.out.println("The raccoon looks disappointed and stays put.");
+            }
+        }
+    }
+    
+    public void checkLocationForRaccoon(Raccoon raccoon) {
+        if (this.getPlace() == Place.FOREST && raccoon.getAtHome() == false) {
+            raccoon.giveApple(this); // Trigger the raccoon giving the apple
+        }
+    }
+    
     
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
