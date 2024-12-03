@@ -151,7 +151,7 @@ public class Player extends Character {
                 System.out.println("You collected an acorn!");
             } else {
                 System.out.println("You chose not to collect the acorn.");
-            }
+            } scanner.close();
         } else {
             System.out.println("There's no acorn here.");
         }
@@ -265,6 +265,7 @@ public class Player extends Character {
                 System.out.println("Unknown command. Do you want to leave?");
             }
         }
+        scanner.close();
     }
     
     /** 
@@ -334,6 +335,7 @@ public class Player extends Character {
                 System.out.println("Unknown command. Do you want to leave?");
             }
         }
+        scanner.close();
     }
     
     
@@ -353,6 +355,7 @@ public class Player extends Character {
         } else {
             System.out.println("You don't have the item the statue is asking for!");
         }
+        scanner.close();
     }
     
     // interact with raccoon)
@@ -368,6 +371,7 @@ public class Player extends Character {
             } else {
                 System.out.println("The raccoon looks disappointed and stays put.");
             }
+            scanner.close();
         }
     }
     
