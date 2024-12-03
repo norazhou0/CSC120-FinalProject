@@ -11,24 +11,11 @@ public class scMap {
             grid = new Object[10][10];
             acorn = new boolean[100]; // One boolean per grid cell
     
-            // Pre-fill the grid with some objects (for demonstration purposes)
-            setupGrid();
-    
             // Randomly assign 20 true values in the Acorn array
             setupAcorn();
         }
     
-        private void setupGrid() {
-            grid[1][1] = "Tree";
-            grid[2][1] = "Tree";
-            grid[5][2] = "Bush";
-            grid[5][3] = "Bush";
-            grid[4][5] = "Trunk from Cracked Tree";
-            grid[5][5] = "Trunk from Cracked Tree";
-            grid[6][5] = "Trunk from Cracked Tree";
-            grid[7][5] = "Trunk from Cracked Tree";
-        }
-    
+
         // Method to set up the Acorn array with 20 true values
         private void setupAcorn() {
             Random random = new Random();
