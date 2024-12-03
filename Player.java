@@ -135,7 +135,7 @@ public class Player extends Character {
             System.out.println("Cannot drop the item.");
         }
     }
-
+    // once dropped, cannot pick up again
 
     // Check for acorn and handle interaction
     public void collectAcorn(scMap map) {
@@ -387,10 +387,6 @@ public class Player extends Character {
             String userInput = input.nextLine().toLowerCase();
     
             player.move(userInput);
-    
-            // Show the player's updated position
-            System.out.println("You are now at row " + player.getLocationRow() +
-                               ", column " + player.getLocationColumn());
         }
     
         System.out.println("Game over!");

@@ -14,6 +14,7 @@ public class Squirrel extends Character {
         return alreadyOpen;
     }
 
+
     public static void main(String[] args) {
         Squirrel squirrelFamily = new Squirrel("squirrel family", false, 4, 7);
         squirrelFamily.getNAcorn();
