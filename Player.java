@@ -227,7 +227,7 @@ public class Player extends Character {
                 System.out.println("Sorry, you cannot enter the library yet!");
             }
         } else if (this.getLocationColumn() > 9) {
-            interactWithStatue();
+            interactWithStatue(null);
         }        
     }
 
@@ -366,17 +366,23 @@ public class Player extends Character {
     /** 
      * The method that handles the statue scenario
      */
-    private void interactWithStatue() {
-        System.out.println("You encountered a statue! It asks for a specific item from your backpack.");
+    private void interactWithStatue(itemsNeed items) {
+        System.out.println("It's the Lanning Fountain in front of the Burton! LOOK!!! The statue is talking and it's glowing.");
+        System.out.println("Statue: You must be the one who can save Smith College. I can help you with that. However, I need three things to release my power.");
+        System.out.println("A dress from Ivy Day. An apple from Mountain Day. And a recipe from Julia Child. Find them and bring them to me!");
         Scanner scanner = new Scanner(System.in);
         System.out.println("What will you give to the statue?");
         String itemToGive = scanner.nextLine();
-    
-        if (this.backpack.containsKey(itemToGive) && this.backpack.get(itemToGive) > 0) {
-            drop(ItemsGrab.valueOf(itemToGive.toUpperCase())); // Give the item to the statue
-            System.out.println("The statue accepted your offering of " + itemToGive + " and seems pleased."); //write different response when recieving different things
+        String itemName = items.name();
+        if (itemToGive.contains(itemName.toUpperCase())) {
+            if (this.backpack.containsKey(itemToGive) && this.backpack.get(itemToGive) > 0) {
+                drop(ItemsGrab.valueOf(itemToGive.toUpperCase())); // Give the item to the statue
+                System.out.println("Statue took " + itemName + ", and the glow around her is stronger!"); //write different response when recieving different things
+            } else {
+                System.out.println("You don't have the item the statue is asking for!");
+            }
         } else {
-            System.out.println("You don't have the item the statue is asking for!");
+            System.out.println("that's not what i want");
         }
         scanner.close();
     }
