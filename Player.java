@@ -86,8 +86,8 @@ public class Player extends Character {
     
         // Allow Acorn to be grabbed multiple times
         if (itemName.equalsIgnoreCase("ACORN")) {
-            int currentCount = backpack.getOrDefault(itemName, 0);
-            backpack.put(itemName, currentCount + 1); // Increment the count of Acorn
+            int currentCount = backpack.getOrDefault("ACORN", 0);
+            backpack.put("ACORN", currentCount + 1); // Increment the count of Acorn
             System.out.println("You've grabbed an acorn! Total acorns: " + backpack.get(itemName));
             return; // Exit early since Acorn has a special rule
         }
@@ -154,6 +154,29 @@ public class Player extends Character {
             } scanner.close();
         } else {
             System.out.println("There's no acorn here.");
+        }
+    }
+
+    public void accessLibrary(Squirrel squirrelFamily) {
+        //backpack.get("ACORN") >= 20 &&
+        if (!this.canEnterLibrary && this.locationRow == 4 && this.locationColumn == 7) {
+            System.out.println("You saw Squirhold(a family of squirrels). Squirrel Papa says: can you give us anything to eat? We can't find food because of the flood. If you help us, we will help you too!");
+            Scanner scanner = new Scanner(System.in);
+            String response = scanner.nextLine().toLowerCase();
+            if (response.equals("yes")) {
+                if (!this.backpack.containsKey("ACORN")) {
+                System.out.println("Squirrel Mama: sorry, you don't have the food we want :(");
+                } else if (response.equals("yes") && this.backpack.get("ACORN") >= 20) {
+                    int val = this.backpack.get("ACORN") - 20;
+                    this.backpack.put("ACORN", val);
+                    this.canEnterLibrary = true;
+                    System.out.println("Squirrel Baby: Thank you so much! we will take 20 acorns! Do you want to go to the library? We will help you with that");
+                    System.out.println("Squirrel Mama run to the library and says: Now you can enter the library.");
+                } else if (this.backpack.get("ACORN") < 20) {
+                    System.out.println("Squirrel Papa: sorry, we are a big family, we need more acorns. please find 20 acorns and then find us!");
+                }
+            } else {System.out.println("Squirhold: okay...");
+            } scanner.close();
         }
     }
 
