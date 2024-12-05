@@ -4,6 +4,9 @@ public class GameLoop {
 
     public static void main(String[] args) {
 
+        // Create a player instance
+        Player myPlayer = new Player("Alice", true, 0, 0, "NORTH");
+
         // This is a "flag" to let us know when the loop should end
         boolean stillPlaying = true;
 
@@ -41,7 +44,10 @@ public class GameLoop {
         userInput.close();
 
         // Once you exit the loop, you may need to deal with various possible stopping conditions
-        if (Player.getPlace() == Place.STATUE) && Player.getBackpack().containsKey("Apple", "Dress", "Recipe")) {
+        if (myPlayer.getPlace() == Place.STATUE &&
+            myPlayer.getBackpack().containsKey("Apple") && 
+            myPlayer.getBackpack().containsKey("Dress") && 
+            myPlayer.getBackpack().containsKey("Recipe")) {
             System.out.println("Yay, you saved the Smith Campus! Well done!");
         } else { // userResponse.equals("LOSE")
             System.out.println("Hope you see you again soon!");
