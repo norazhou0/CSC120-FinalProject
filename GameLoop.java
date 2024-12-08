@@ -5,8 +5,8 @@ public class GameLoop {
     public static void main(String[] args) {
 
         // Create a player instance
-        Player myPlayer = new Player("Alice", true, 0, 0, "NORTH");
-
+        Player myPlayer = new Player("Nora", true, 0, 0, null);
+        
         // This is a "flag" to let us know when the loop should end
         boolean stillPlaying = true;
 

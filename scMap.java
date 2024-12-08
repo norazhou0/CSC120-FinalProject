@@ -25,6 +25,11 @@ public class scMap {
                 int index = random.nextInt(100); // Random index between 0 and 99
                 int row = index / 10;
                 int col = index % 10;
+
+                if (row == 4 && col == 7) {
+                    continue;
+                }
+                
                 if (grid[row][col] == null && !acorn[index]) { // Only set if it is currently false
                     acorn[index] = true;
                     count++;
