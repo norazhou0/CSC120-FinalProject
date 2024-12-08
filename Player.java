@@ -7,8 +7,7 @@ public class Player extends Character {
     private boolean canFly = false;
     private boolean canEnterLibrary = false;
     private boolean alive = true;
-    String direction;
-    Scanner input;
+    private Scanner input;
 
     /**
      * Constructor for Player
@@ -16,12 +15,13 @@ public class Player extends Character {
      * @param canOnboard whether the player can board the kayak
      * @param locationRow the row on the grid the player is in
      * @param locationColumn the column on the grid the player is in
+     * @param input the input of the player
      */
 
-    public Player(String name, boolean canOnboard, int locationRow, int locationColumn, String move) {
+    public Player(String name, boolean canOnboard, int locationRow, int locationColumn, Scanner input) {
         super(name, canOnboard, locationRow, locationColumn);
-        backpack = new Hashtable<>();
-        this.input = new Scanner(System.in);
+        this.backpack = new Hashtable<>();
+        this.input = input;
     }
 
     /* Accessors */
@@ -58,15 +58,15 @@ public class Player extends Character {
     // ACORN, APPLE, DRESS, RECIPE, BOX, TOOL, LAPTOP, BOOK, OKA //
     public void examine (ItemsExamine item){
         if (item.equals(ItemsExamine.ACORN)) {
-            System.out.println("...");
+            System.out.println("This is an acorn. squirrels might like it.");
         } else if (item.equals(ItemsExamine.DRESS)) {
-            System.out.println("...");
+            System.out.println("This is a white dress from Ivy Day. It contains valuable memories of Smithies, which might be the key to save Smith");
         } else if (item.equals(ItemsExamine.LAPTOP)) {
-            System.out.println("...");
+            System.out.println("This is Jordan's laptop. The wallpaper is of his dog, Charlie.");
         } else if (item.equals(ItemsExamine.APPLE)) {
-            System.out.println("...");
+            System.out.println("This is an apple from Mountain Day! This might be the key to save Smith.");
         } else if (item.equals(ItemsExamine.RECIPE)) {
-            System.out.println("...");
+            System.out.println("This is a recipe from Julia Child. Keep it safe—Smithies 100 years later will still need it for Julia Child Day!");
         } else if (item.equals(ItemsExamine.TOOL)) {
             System.out.println("It's Cross. A 19the century silver craft originally stored in SCMA. It's 30 cm tall. Hummm...That's pretty long");
         } else if (item.equals(ItemsExamine.OKA)) {
@@ -82,12 +82,14 @@ public class Player extends Character {
      * @param item able to be grabbed
      */
     public void grab(ItemsGrab item) {
-        String itemName = item.name(); // Get the name of the item
+        // Get the name of the item
+        String itemName = item.name();
     
         // Allow Acorn to be grabbed multiple times
         if (itemName.equalsIgnoreCase("ACORN")) {
             int currentCount = backpack.getOrDefault("ACORN", 0);
-            backpack.put("ACORN", currentCount + 1); // Increment the count of Acorn
+            // Increment the count of Acorn by 1
+            backpack.put("ACORN", currentCount + 1);
             System.out.println("You've grabbed an acorn! Total acorns: " + backpack.get(itemName));
             return; // Exit early since Acorn has a special rule
         }
@@ -122,17 +124,15 @@ public class Player extends Character {
         // Check if the item exists in the backpack and has a count > 0
         if (this.backpack.containsKey(itemName) && this.backpack.get(itemName) > 0) {
             int currentCount = this.backpack.get(itemName);
-            
             if (currentCount > 1) {
                 // Decrease the count by 1
-
                 this.backpack.put(itemName, currentCount - 1);
             } else {
                 // Remove the item entirely if the count is 0 after dropping
                 this.backpack.remove(itemName);
             }
         } else {
-            System.out.println("Cannot drop the item.");
+            System.out.println("You don't have that item in your backpack.");
         }
     }
     // once dropped, cannot pick up again
@@ -142,8 +142,7 @@ public class Player extends Character {
         int index = locationRow * 10 + locationColumn;
         if (scMap.hasAcorn(index)) { // Check if an acorn exists at the current position
             System.out.println("There is an acorn here. Do you want to collect it? (yes/no)");
-            Scanner scanner = new Scanner(System.in);
-            String response = scanner.nextLine().toLowerCase();
+            String response = input.nextLine().toLowerCase();
 
             if (response.equals("yes")) {
                 grab(ItemsGrab.ACRON); // Add the acorn to the backpack
@@ -151,7 +150,7 @@ public class Player extends Character {
                 System.out.println("You collected an acorn!");
             } else {
                 System.out.println("You chose not to collect the acorn.");
-            } scanner.close();
+            }
         } else {
             System.out.println("There's no acorn here.");
         }
@@ -161,8 +160,7 @@ public class Player extends Character {
         //backpack.get("ACORN") >= 20 &&
         if (!this.canEnterLibrary && this.locationRow == 4 && this.locationColumn == 7) {
             System.out.println("You saw Squirhold(a family of squirrels). Squirrel Papa says: can you give us anything to eat? We can't find food because of the flood. If you help us, we will help you too!");
-            Scanner scanner = new Scanner(System.in);
-            String response = scanner.nextLine().toLowerCase();
+            String response = input.nextLine().toLowerCase();
             if (response.equals("yes")) {
                 if (!this.backpack.containsKey("ACORN")) {
                 System.out.println("Squirrel Mama: sorry, you don't have the food we want :(");
@@ -176,7 +174,7 @@ public class Player extends Character {
                     System.out.println("Squirrel Papa: sorry, we are a big family, we need more acorns. please find 20 acorns and then find us!");
                 }
             } else {System.out.println("Squirhold: okay...");
-            } scanner.close();
+            }
         }
     }
 
@@ -196,7 +194,6 @@ public class Player extends Character {
     public void move(String input) {
         // Ensure case-insensitivity
         input = input.toLowerCase();
-    
         // Check if the input contains "move" and a valid direction
         if (input.contains("move")) {
             if (input.contains("south")) {
@@ -221,7 +218,7 @@ public class Player extends Character {
         } else if (this.getLocationRow() > 9) {
             handleForest();
         } else if (this.getLocationColumn() < 0) {
-            if (canEnterLibrary == true) { // Use '==' for comparison
+            if (canEnterLibrary) {
                 enterLibrary();
             } else {
                 System.out.println("Sorry, you cannot enter the library yet!");
@@ -237,9 +234,10 @@ public class Player extends Character {
      */
     private void handleWaterfall() {
         System.out.println("You fell into a waterfall!");
-        double chance = Math.random(); // Generate a random number between 0 and 1
-        if (chance < 0.5) {
-            this.setAlive(false); // 50% chance of dying
+        // Generate a random number between 0 and 1
+        if (Math.random() < 0.5) {
+            // 50% chance of dying
+            this.setAlive(false); 
             System.out.println("You didn't survive the waterfall... Game over.");
         } else {
             this.canFly = true; // 50% chance of learning to fly
@@ -253,26 +251,18 @@ public class Player extends Character {
     private void handleForest() {
         System.out.println("You wandered into the forest. The air feels different here...");
         System.out.println("There looks to be something in the Oak.");
-    
-        Scanner scanner = new Scanner(System.in);
         boolean exploring = true; // Keep track of the exploration status
-    
         while (exploring) {
-            String command = scanner.nextLine().toLowerCase();
-    
+            String command = input.nextLine().toLowerCase();
             if (command.equals("examine oak")) {
-                examine(ItemsExamine.OKA); // Use your existing examine method
-    
+                examine(ItemsExamine.OKA); // Use existing examine method
                 // Check if the player wants to try using a tool
                 System.out.println("Do you want to try using a tool from your backpack to grab the dress? (yes/no)");
-                String useToolResponse = scanner.nextLine().toLowerCase();
-    
-                if (useToolResponse.equals("yes")) {
+                if (input.nextLine().equalsIgnoreCase("yes")) {
                     System.out.println("Which tool would you like to use?");
-                    String tool = scanner.nextLine();
-    
+                    String tool = input.nextLine();
                     // Check if the tool exists in the player's backpack
-                    if (this.backpack.containsKey(tool) && this.backpack.get(tool) > 0) {
+                    if (this.backpack.containsKey(tool)) {
                         System.out.println("You used the " + tool + " to grab the white dress!");
                         grab(ItemsGrab.DRESS); // Use the grab method to add the dress to the backpack
                     } else {
@@ -283,12 +273,12 @@ public class Player extends Character {
                 }
             } else if (command.equals("leave")) {
                 System.out.println("You left the forest.");
-                exploring = false; // End the loop
+                // End the loop
+                exploring = false; 
             } else {
                 System.out.println("Unknown command. Do you want to leave?");
             }
         }
-        scanner.close();
     }
     
     /** 
@@ -296,18 +286,17 @@ public class Player extends Character {
      */
     private void enterLibrary() {
         System.out.println("You entered the library. There are four mysterious boxes here: one is yellow, one is blue, one is white, and one is silver.");
-        Scanner scanner = new Scanner(System.in);
-        
+
         boolean exploring = true; // Keep track of the exploration status
         
         while (exploring) {
             System.out.println("What would you like to do? (type 'examine [box color]' or 'leave')");
-            String command = scanner.nextLine().toLowerCase();
+            String command = input.nextLine().toLowerCase();
     
             // Yellow box with recipe
             if (command.equals("examine yellow box")) {
                 System.out.println("There is a tag with some words on the box, but it was blurred by water. You can faintly make out two words: Julia and cook. Do you want to open it? (yes/no)");
-                String responseA = scanner.nextLine().toLowerCase();
+                String responseA = input.nextLine().toLowerCase();
                 if (responseA.equals("yes")) {
                     grab(ItemsGrab.RECIPE);
                     System.out.println("You got Julia Child's recipe!");
@@ -318,7 +307,7 @@ public class Player extends Character {
             // White box with laptop
             } else if (command.equals("examine white box")) {
                 System.out.println("This box looks familiar. You seem to have seen it in a CSC class before. Do you want to open it? (yes/no)");
-                String responseB = scanner.nextLine().toLowerCase();
+                String responseB = input.nextLine().toLowerCase();
                 if (responseB.equals("yes")) {
                     grab(ItemsGrab.LAPTOP);
                     System.out.println("You got Jordan's laptop!");
@@ -329,7 +318,7 @@ public class Player extends Character {
             // Blue box with book
             } else if (command.equals("examine blue box")) {
                 System.out.println("The box is small and old. You’ve never seen it before. Do you want to open it? (yes/no)");
-                String responseC = scanner.nextLine().toLowerCase();
+                String responseC = input.nextLine().toLowerCase();
                 if (responseC.equals("yes")) {
                     grab(ItemsGrab.BOOK);
                     System.out.println("You got a mysterious book!");
@@ -340,7 +329,7 @@ public class Player extends Character {
             // Silver box with tool
             } else if (command.equals("examine silver box")) {
                 System.out.println("The box is big and heavy. Do you want to open it? (yes/no)");
-                String responseD = scanner.nextLine().toLowerCase();
+                String responseD = input.nextLine().toLowerCase();
                 if (responseD.equals("yes")) {
                     grab(ItemsGrab.TOOL);
                     System.out.println("You got a Cross tool!");
@@ -358,11 +347,9 @@ public class Player extends Character {
                 System.out.println("Unknown command. Do you want to leave?");
             }
         }
-        scanner.close();
     }
     
     
-
     /** 
      * The method that handles the statue scenario
      */
@@ -387,7 +374,7 @@ public class Player extends Character {
         scanner.close();
     }
     
-    // interact with raccoon)
+    // interact with raccoon
     public void interactWithRaccoon(Raccoon raccoon) {
         if (this.getLocationRow() == raccoon.getLocationRow() && this.getLocationColumn() == raccoon.getLocationColumn()) {
             System.out.println("You encounter a rabbit raccoon. It looks at you with pleading face and says, 'I've lost my way to home. Can you take me to the forest?'");
