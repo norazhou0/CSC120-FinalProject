@@ -4,7 +4,6 @@ import java.util.Scanner;
 public class Player extends Character {
     private Hashtable<String, Integer> backpack;
     private Place place = Place.GRID;
-    private boolean canFly = false;
     private boolean canEnterLibrary = false;
     private boolean alive = true;
     private Scanner input;
@@ -33,9 +32,6 @@ public class Player extends Character {
         return this.place;
     }
 
-    public boolean getCanFly() {
-        return this.canFly;
-    }
 
     public boolean getCanEnterLibrary() {
         return this.canEnterLibrary;
@@ -96,7 +92,7 @@ public class Player extends Character {
     
         // Check if the item is already in the backpack (avoid grab repetitively)
         if (backpack.containsKey(itemName)) {
-            System.out.println("You already have the " + itemName.toLowerCase() + " in your backpack!");
+            System.out.println("You already have the " + itemName + " in your backpack!");
             return; // Exit the method, no further action needed
         }
     
@@ -233,7 +229,7 @@ public class Player extends Character {
                 System.out.println("Sorry, you cannot enter the library yet!");
             }
         } else if (this.getLocationColumn() > 9) {
-            interactWithStatue(null);
+            this.place = Place.STATUE;
         }        
     }
 
@@ -249,8 +245,9 @@ public class Player extends Character {
             this.setAlive(false); 
             System.out.println("You didn't survive the waterfall... Game over.");
         } else {
-            this.canFly = true; // 50% chance of learning to fly
-            System.out.println("You survived the waterfall and learned how to fly!");
+            setLocationColumn(0);
+            setLocationRow(0);
+            System.out.println("You survived the waterfall! Waterfall is dangerous and unpredictable.");
         }
     }
     
@@ -258,6 +255,7 @@ public class Player extends Character {
      * The method that handles the forest scenario
      */
     private void handleForest() {
+        this.place = Place.FOREST;
         System.out.println("You wandered into the forest. The air feels different here...");
         System.out.println("There looks to be something in the Oak.");
         boolean exploring = true; // Keep track of the exploration status
@@ -356,29 +354,6 @@ public class Player extends Character {
     }
     
     
-    /** 
-     * The method that handles the statue scenario
-     */
-    private void interactWithStatue(itemsNeed items) {
-        System.out.println("It's the Lanning Fountain in front of the Burton! LOOK!!! The statue is talking and it's glowing.");
-        System.out.println("Statue: You must be the one who can save Smith College. I can help you with that. However, I need three things to release my power.");
-        System.out.println("A dress from Ivy Day. An apple from Mountain Day. And a recipe from Julia Child. Find them and bring them to me!");
-
-        System.out.println("What will you give to the statue?");
-        String itemToGive = input.nextLine();
-        String itemName = items.name();
-
-        if (itemToGive.contains(itemName.toUpperCase())) {
-            if (this.backpack.containsKey(itemToGive) && this.backpack.get(itemToGive) > 0) {
-                drop(ItemsGrab.valueOf(itemToGive.toUpperCase())); // Give the item to the statue
-                System.out.println("Statue took " + itemName + ", and the glow around her is stronger!"); //write different response when recieving different things
-            } else {
-                System.out.println("You don't have the item the statue is asking for!");
-            }
-        } else {
-            System.out.println("that's not what I want");
-        }
-    }
     
     // interact with raccoon
     public void interactWithRaccoon(Raccoon raccoon) {

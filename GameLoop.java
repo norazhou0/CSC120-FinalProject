@@ -5,8 +5,9 @@ public class GameLoop {
     public static void main(String[] args) {
 
         // Create a player instance
-        Player myPlayer = new Player("Nora", true, 0, 0, null);
-        
+        Player myPlayer = new Player("Nora", true, 5, 4, null);
+        Raccoon raccoon = new Raccoon("Raccoon", true, 6, 2); 
+
         // This is a "flag" to let us know when the loop should end
         boolean stillPlaying = true;
 
@@ -44,15 +45,17 @@ public class GameLoop {
         userInput.close();
 
         // Once you exit the loop, you may need to deal with various possible stopping conditions
-        if (myPlayer.getPlace() == Place.STATUE &&
-            myPlayer.getBackpack().containsKey("Apple") && 
-            myPlayer.getBackpack().containsKey("Dress") && 
-            myPlayer.getBackpack().containsKey("Recipe")) {
-            System.out.println("Yay, you saved the Smith Campus! Well done!");
-        } else { // userResponse.equals("LOSE")
-            System.out.println("Hope you see you again soon!");
-        }
-
+        if (myPlayer.getPlace() == Place.STATUE) {
+            System.out.println("It's the Lanning Fountain in front of the Burton! LOOK!!! The statue is talking and it's glowing.");
+            System.out.println("Statue: You must be the one who can save Smith College. I can help you with that. However, I need three things to release my power.");
+            System.out.println("A dress from Ivy Day. An apple from Mountain Day. And a recipe from Julia Child. Find them and bring them to me!");
+            if (myPlayer.getBackpack().containsKey("APPLE") && 
+            myPlayer.getBackpack().containsKey("DRESS") && 
+            myPlayer.getBackpack().containsKey("RECIPE")) {
+                System.out.println("Yay, you saved the Smith Campus! Well done!");
+            } else {
+                System.out.println("Statue: Sorry! You don't have all the things I need to save smith! Please collect all of them and find me again.");
+            }
     }
-
+}
 }
