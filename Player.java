@@ -296,7 +296,8 @@ public class Player extends Character {
     private void enterLibrary() {
         System.out.println("You entered the library. There are four mysterious boxes here: one is yellow, one is blue, one is white, and one is silver.");
 
-        boolean exploring = true; // Keep track of the exploration status
+        // Keep track of the exploration status
+        boolean exploring = true; 
         
         while (exploring) {
             System.out.println("What would you like to do? (type 'examine [box color]' or 'leave')");
@@ -305,8 +306,7 @@ public class Player extends Character {
             // Yellow box with recipe
             if (command.equals("examine yellow box")) {
                 System.out.println("There is a tag with some words on the box, but it was blurred by water. You can faintly make out two words: Julia and cook. Do you want to open it? (yes/no)");
-                String responseA = input.nextLine().toLowerCase();
-                if (responseA.equals("yes")) {
+                if (input.nextLine().toLowerCase().equals("yes")) {
                     grab(ItemsGrab.RECIPE);
                     System.out.println("You got Julia Child's recipe!");
                 } else {
@@ -316,8 +316,7 @@ public class Player extends Character {
             // White box with laptop
             } else if (command.equals("examine white box")) {
                 System.out.println("This box looks familiar. You seem to have seen it in a CSC class before. Do you want to open it? (yes/no)");
-                String responseB = input.nextLine().toLowerCase();
-                if (responseB.equals("yes")) {
+                if (input.nextLine().toLowerCase().equals("yes")) {
                     grab(ItemsGrab.LAPTOP);
                     System.out.println("You got Jordan's laptop!");
                 } else {
@@ -327,8 +326,7 @@ public class Player extends Character {
             // Blue box with book
             } else if (command.equals("examine blue box")) {
                 System.out.println("The box is small and old. You’ve never seen it before. Do you want to open it? (yes/no)");
-                String responseC = input.nextLine().toLowerCase();
-                if (responseC.equals("yes")) {
+                if (input.nextLine().toLowerCase().equals("yes")) {
                     grab(ItemsGrab.BOOK);
                     System.out.println("You got a mysterious book!");
                 } else {
@@ -338,8 +336,7 @@ public class Player extends Character {
             // Silver box with tool
             } else if (command.equals("examine silver box")) {
                 System.out.println("The box is big and heavy. Do you want to open it? (yes/no)");
-                String responseD = input.nextLine().toLowerCase();
-                if (responseD.equals("yes")) {
+                if (input.nextLine().toLowerCase().equals("yes")) {
                     grab(ItemsGrab.TOOL);
                     System.out.println("You got a Cross tool!");
                 } else {
@@ -366,10 +363,11 @@ public class Player extends Character {
         System.out.println("It's the Lanning Fountain in front of the Burton! LOOK!!! The statue is talking and it's glowing.");
         System.out.println("Statue: You must be the one who can save Smith College. I can help you with that. However, I need three things to release my power.");
         System.out.println("A dress from Ivy Day. An apple from Mountain Day. And a recipe from Julia Child. Find them and bring them to me!");
-        Scanner scanner = new Scanner(System.in);
+
         System.out.println("What will you give to the statue?");
-        String itemToGive = scanner.nextLine();
+        String itemToGive = input.nextLine();
         String itemName = items.name();
+
         if (itemToGive.contains(itemName.toUpperCase())) {
             if (this.backpack.containsKey(itemToGive) && this.backpack.get(itemToGive) > 0) {
                 drop(ItemsGrab.valueOf(itemToGive.toUpperCase())); // Give the item to the statue
@@ -378,49 +376,31 @@ public class Player extends Character {
                 System.out.println("You don't have the item the statue is asking for!");
             }
         } else {
-            System.out.println("that's not what i want");
+            System.out.println("that's not what I want");
         }
-        scanner.close();
     }
     
     // interact with raccoon
     public void interactWithRaccoon(Raccoon raccoon) {
         if (this.getLocationRow() == raccoon.getLocationRow() && this.getLocationColumn() == raccoon.getLocationColumn()) {
             System.out.println("You encounter a rabbit raccoon. It looks at you with pleading face and says, 'I've lost my way to home. Can you take me to the forest?'");
-            Scanner scanner = new Scanner(System.in);
-            String response = scanner.nextLine().toLowerCase();
     
-            if (response.equals("yes")) {
+            if (input.nextLine().toLowerCase().equals("yes")) {
                 raccoon.onBoard(this); // Raccoon follows the player
                 System.out.println("You agreed to help the raccoon. Lead it to the forest!");
             } else {
                 System.out.println("The raccoon looks disappointed and stays put.");
             }
-            scanner.close();
         }
     }
     
     public void checkLocationForRaccoon(Raccoon raccoon) {
-        if (this.getPlace() == Place.FOREST && raccoon.getAtHome() == false) {
+        if (this.getPlace() == Place.FOREST && !raccoon.getAtHome()) {
             raccoon.giveApple(this); // Trigger the raccoon giving the apple
+            System.out.println("The raccoon thanks to you and gives you an apple!");
         }
     }
     
-    
-    public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
-        Player player = new Player("Jordan", true, 5, 4, "");
-        Raccoon raccon = new Raccoon("Raccoon", true, 6, 2); 
-        while (player.isAlive()) {
-            System.out.println("What's your next move? (e.g., 'move south')");
-            String userInput = input.nextLine().toLowerCase();
-    
-            player.move(userInput);
-        }
-    
-        System.out.println("Game over!");
-        input.close();
-    }
     
     
     
