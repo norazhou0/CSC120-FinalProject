@@ -183,7 +183,6 @@ public class Player extends Character {
     }
     
 
-
     public void setLocationColumn(int column) {
         this.locationColumn = column;
     }

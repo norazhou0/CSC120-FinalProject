@@ -17,31 +17,70 @@ public class GameLoop {
         // Storage for user's responses
         String userResponse = "";
 
-        // This could be replaced with a more interesting opening
+        // Game opening
         System.out.println("******************");
         System.out.println("WELCOME TO SMITH ADVENTURE");
         System.out.println("******************");
-
-        // Instructions are sometimes helpful
         System.out.println("Enter READY to start, anything else to exit.");
 
-        // The do...while structure means we execute the body of the loop once before checking the stopping condition
-        do {
-            // ************************************************
-            // The stuff that happens in your game will go here
-            //  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓
+        // Check if the player is ready
+        userResponse = userInput.nextLine().toUpperCase();
+        if (!userResponse.equalsIgnoreCase("READY")) {
+            stillPlaying = false;
+            System.out.println("Goodbye! Come back soon!");
+        }
+
+        // Main game loop
+        while (stillPlaying && myPlayer.isAlive()) {
             System.out.println("You are in the SMITH ADVENTURE. Good luck!");
+            System.out.println("Enter a command (examine <item>, grab <item>, drop <item>, move <north/south/west/east>, quit):");
             userResponse = userInput.nextLine().toUpperCase();
-
-            // ***********************************************************************
-            // And as the player interacts, you'll check to see if the game should end
-            //  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓  ↓
-            if (!userResponse.equalsIgnoreCase("READY")) {
+        
+            if (userResponse.startsWith("EXAMINE")) {
+                String itemName = userResponse.substring(8).trim().toUpperCase();
+                ItemsExamine item;
+                try {
+                    item = ItemsExamine.valueOf(itemName);
+                } catch (IllegalArgumentException e) {
+                    item = null; // Assign null or skip execution on invalid input
+                }
+                if (item != null) {
+                    myPlayer.examine(item);
+                }
+            } else if (userResponse.startsWith("GRAB")) {
+                String itemName = userResponse.substring(5).trim().toUpperCase();
+                ItemsGrab item;
+                try {
+                    item = ItemsGrab.valueOf(itemName);
+                } catch (IllegalArgumentException e) {
+                    item = null;
+                }
+                if (item != null) {
+                    myPlayer.grab(item);
+                }
+            } else if (userResponse.startsWith("DROP")) {
+                String itemName = userResponse.substring(5).trim().toUpperCase();
+                ItemsGrab item;
+                try {
+                    item = ItemsGrab.valueOf(itemName);
+                } catch (IllegalArgumentException e) {
+                    item = null;
+                }
+                if (item != null) {
+                    myPlayer.drop(item);
+                }
+            } else if (userResponse.startsWith("MOVE")) {
+                myPlayer.move(userResponse); // Assumes move validation is in the Player class
+            } else if (userResponse.equalsIgnoreCase("QUIT")) {
                 stillPlaying = false;
+                System.out.println("Exiting the game. Goodbye!");
+            } else {
+                System.out.println("Unknown command. Please try again.");
             }
-        } while (stillPlaying);
+        }
+        
 
-        // Tidy up
+        // Close the sanner
         userInput.close();
 
         // Once you exit the loop, you may need to deal with various possible stopping conditions
