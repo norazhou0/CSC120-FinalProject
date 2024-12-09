@@ -46,6 +46,14 @@ public class Player extends Character {
         this.alive = status;
     }
 
+    public void setLocationColumn(int column) {
+        this.locationColumn = column;
+    }
+
+    public void setLocationRow(int row) {
+        this.locationRow = row;
+    }
+
 
     /** 
      * The method that allows the player to examine items
@@ -184,13 +192,7 @@ public class Player extends Character {
     }
     
 
-    public void setLocationColumn(int column) {
-        this.locationColumn = column;
-    }
 
-    public void setLocationRow(int row) {
-        this.locationColumn = row;
-    }
 
     /** 
      * The method that allows the player to move
@@ -202,13 +204,13 @@ public class Player extends Character {
         // Check if the input contains "move" and a valid direction
         if (input.contains("move")) {
             if (input.contains("south")) {
-                this.setLocationRow(this.getLocationRow() + 1); // Move south
+                this.setLocationRow(this.locationRow + 1); // Move south
             } else if (input.contains("north")) {
-                this.setLocationRow(this.getLocationRow() - 1); // Move north
+                this.setLocationRow(this.locationRow - 1); // Move north
             } else if (input.contains("west")) {
-                this.setLocationColumn(this.getLocationColumn() - 1); // Move west
+                this.setLocationColumn(this.locationColumn - 1); // Move west
             } else if (input.contains("east")) {
-                this.setLocationColumn(this.getLocationColumn() + 1); // Move east
+                this.setLocationColumn(this.locationColumn + 1); // Move east
             } else {
                 System.out.println("Invalid direction! Please choose from south, north, west, or east.");
             }
@@ -376,6 +378,12 @@ public class Player extends Character {
         }
     }
     
+    public static void main(String[] args) {
+        
+        Player player = new Player("player", true, 5, 4, null);
+        System.out.println(player.getLocationColumn());
+        System.out.println(player.getLocationRow());
+    }
     
     
     
