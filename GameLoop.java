@@ -9,7 +9,6 @@ public class GameLoop {
         scMap map = new scMap();
         Raccoon raccoon = new Raccoon("Raccoon", true, 6, 6);
 
-
         // This is a "flag" to let us know when the loop should end
         boolean stillPlaying = true;
 
@@ -37,7 +36,7 @@ public class GameLoop {
         // Main game loop
         while (stillPlaying && myPlayer.isAlive()) {
             System.out.println(
-                    "Please enter a command (examine <item>, grab <item>, drop <item>, move <north/south/west/east>, quit):");
+                    "Please enter a command (examine <item>, drop <item>, move <north/south/west/east>, quit):");
             userResponse = userInput.nextLine().toLowerCase();
 
             if (userResponse.startsWith("examine")) {
@@ -48,14 +47,6 @@ public class GameLoop {
                     myPlayer.examine(separatedExamine[1]);
                 } else {
                     System.out.println("You must include 'examine' and a valid object.");
-                }
-            } else if (userResponse.startsWith("grab")) {
-                String[] separatedGrab = userResponse.split(" ");
-                if (separatedGrab.length == 2) {
-                    // Access the item to be grabbed
-                    myPlayer.grab(separatedGrab[1]);
-                } else {
-                    System.out.println("You must include 'grab' and a valid object.");
                 }
             } else if (userResponse.startsWith("drop")) {
                 String[] separatedDrop = userResponse.split(" ");
@@ -70,8 +61,8 @@ public class GameLoop {
                 if (separatedMove.length == 2) {
                     // Access the direciton to move
                     myPlayer.move(separatedMove[1]);
-                    //System.out.println(myPlayer.getLocationColumn());
-                    //System.out.println(myPlayer.getLocationRow());
+                    // System.out.println(myPlayer.getLocationColumn());
+                    // System.out.println(myPlayer.getLocationRow());
                 } else {
                     System.out.println("You must include 'move' and a valid direction.");
                 }
