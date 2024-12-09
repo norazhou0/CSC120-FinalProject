@@ -172,14 +172,17 @@ public class Player extends Character {
         if (this.getLocationRow() < 0) {
             handleWaterfall();
         } else if (this.getLocationRow() > 9) {
+            this.place = Place.FOREST;
             handleForest();
         } else if (this.getLocationColumn() < 0) {
             if (canEnterLibrary) {
+                this.place = Place.LIBRARY;
                 handleLibrary();
             } else {
                 System.out.println("Sorry, you cannot enter the library yet!");
             }
         } else if (this.getLocationColumn() > 9) {
+            this.place = Place.FOREST;
             handleStatue();
         }
     }
@@ -263,21 +266,28 @@ public class Player extends Character {
      * The method that handles the forest scenario
      */
     private void handleForest() {
-        this.place = Place.FOREST;
         System.out.println("You wandered into the forest. The air feels different here...");
-        System.out.println("There looks to be something in the Oak.");
+        System.out.println("There looks to be something in the Oak. Do you want to take a closer look at this oak? (yes/no)");
+
+        Scanner scanner = new Scanner(System.in);
         boolean exploring = true; // Keep track of the exploration status
+
         while (exploring) {
-            String command = input.nextLine().toLowerCase();
-            if (command.equals("examine oak")) {
-                examine("oak"); // Use existing examine method
+            String command = scanner.nextLine().toLowerCase();
+
+            if (command.equals("yes")) {
+                examine("oak"); // Use your existing examine method
+
                 // Check if the player wants to try using a tool
                 System.out.println("Do you want to try using a tool from your backpack to grab the dress? (yes/no)");
-                if (input.nextLine().equalsIgnoreCase("yes")) {
+                String useToolResponse = scanner.nextLine().toLowerCase();
+
+                if (useToolResponse.equals("yes")) {
                     System.out.println("Which tool would you like to use?");
-                    String tool = input.nextLine();
+                    String tool = scanner.nextLine();
+
                     // Check if the tool exists in the player's backpack
-                    if (backpack.containsKey(tool)) {
+                    if (this.backpack.containsKey(tool) && this.backpack.get(tool) > 0) {
                         System.out.println("You used the " + tool + " to grab the white dress!");
                         grab("dress"); // Use the grab method to add the dress to the backpack
                     } else {
@@ -288,12 +298,20 @@ public class Player extends Character {
                 }
             } else if (command.equals("leave")) {
                 System.out.println("You left the forest.");
-                // End the loop
-                exploring = false;
+                exploring = false; // End the loop
+                setLocationColumn(0);
+                setLocationRow(0);
+            } else if (command.equals("no")) {
+                System.out.println("OK. Do you want to leave?");
             } else {
-                System.out.println("Unknown command. Do you want to leave?");
+                System.out.println("Unknown command. Type 'leave' if you want to leave.");
             }
         }
+        scanner.close();
+        //Exception in thread "main" java.util.NoSuchElementException: No line found
+        //at java.base/java.util.Scanner.nextLine(Scanner.java:1660)
+        //at GameLoop.main(GameLoop.java:40)
+        //(base) ReneedeMacBook-Pro:CSC120-FinalProject renee$ 
     }
 
     /**
@@ -335,7 +353,7 @@ public class Player extends Character {
                 // Blue box with book
             } else if (command.equals("examine blue box")) {
                 System.out.println(
-                        "The box is small and old. You’ve never seen it before. Do you want to open it? (yes/no)");
+                        "The box is small and old. You've never seen it before. Do you want to open it? (yes/no)");
                 if (input.nextLine().toLowerCase().equals("yes")) {
                     grab("book");
                     System.out.println(
@@ -348,8 +366,8 @@ public class Player extends Character {
             } else if (command.equals("examine silver box")) {
                 System.out.println("The box is big and heavy. Do you want to open it? (yes/no)");
                 if (input.nextLine().toLowerCase().equals("yes")) {
-                    grab("tool");
-                    System.out.println("You got a Cross tool!");
+                    grab("cross");
+                    System.out.println("You got a Cross! It is a silver cross from Ethiopia. It is very long.");
                 } else {
                     System.out.println("OK. Do you want to check other box?");
                 }
@@ -370,24 +388,25 @@ public class Player extends Character {
      * The method that handles the statue scenario
      */
     private void handleStatue() {
-        if (this.place == Place.STATUE) {
+        System.out.println(
+                "It's the Lanning Fountain in front of the Burton! LOOK!!! The statue is talking and it's glowing.");
+        System.out.println(
+                "Statue: You must be the one who can save Smith College. I can help you with that. However, I need three things to release my power.");
+        System.out.println(
+                "A dress from Ivy Day. An apple from Mountain Day. And a recipe from Julia Child. Find them and bring them to me!");
+        if (getBackpack().containsKey("APPLE") &&
+                getBackpack().containsKey("DRESS") &&
+                getBackpack().containsKey("RECIPE")) {
+                    this.win = true;
+            System.out.println("Yay, you saved the Smith Campus!");
+        } else {
             System.out.println(
-                    "It's the Lanning Fountain in front of the Burton! LOOK!!! The statue is talking and it's glowing.");
-            System.out.println(
-                    "Statue: You must be the one who can save Smith College. I can help you with that. However, I need three things to release my power.");
-            System.out.println(
-                    "A dress from Ivy Day. An apple from Mountain Day. And a recipe from Julia Child. Find them and bring them to me!");
-            if (getBackpack().containsKey("APPLE") &&
-                    getBackpack().containsKey("DRESS") &&
-                    getBackpack().containsKey("RECIPE")) {
-                        this.win = true;
-                System.out.println("Yay, you saved the Smith Campus!");
-            } else {
-                System.out.println(
-                        "Statue: Sorry! You don't have all the things I need to save smith! Please collect all of them and find me again.");
-            }
+                    "Statue: Sorry! You don't have all the things I need to save smith! Please collect all of them and find me again.");
+                    setLocationColumn(9);
+                    setLocationRow(9);
         }
     }
+
 
     /**
      * The method that allows the player to interact with raccoon

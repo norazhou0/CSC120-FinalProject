@@ -61,8 +61,8 @@ public class GameLoop {
                 if (separatedMove.length == 2) {
                     // Access the direciton to move
                     myPlayer.move(separatedMove[1]);
-                    // System.out.println(myPlayer.getLocationColumn());
-                    // System.out.println(myPlayer.getLocationRow());
+                    System.out.println(myPlayer.getLocationColumn());
+                    System.out.println(myPlayer.getLocationRow());
                 } else {
                     System.out.println("You must include 'move' and a valid direction.");
                 }
