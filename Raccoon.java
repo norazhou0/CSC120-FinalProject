@@ -40,7 +40,7 @@ public class Raccoon extends Character {
      */
     public void giveApple(Player player) {
         if (player.getPlace() == Place.FOREST && haveApple) {
-            player.grab(ItemsGrab.APPLE); // Add apple to player's backpack
+            player.grab("apple"); // Add apple to player's backpack
             System.out.println("The raccoon gave you a Mountain Day apple!");
             haveApple = false; // Raccoon no longer has the apple
             atHome = true; // Raccoon has reached its home
