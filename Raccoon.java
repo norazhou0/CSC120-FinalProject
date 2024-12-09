@@ -2,12 +2,12 @@ public class Raccoon extends Character {
     private boolean haveApple = true; // Raccoon starts with an apple
     private boolean atHome = false; // Raccoon initially not in the forest
 
-
     /**
      * Constructor for Raccoon
-     * @param name the name of the raccoon
-     * @param canOnboard whether the racoon can board the kayak
-     * @param locationRow the row on the grid the raccoon is in
+     * 
+     * @param name           the name of the raccoon
+     * @param canOnboard     whether the racoon can board the kayak
+     * @param locationRow    the row on the grid the raccoon is in
      * @param locationColumn the column on the grid the raccoon is in
      */
     public Raccoon(String name, boolean canOnboard, int locationRow, int locationColumn) {
@@ -22,9 +22,10 @@ public class Raccoon extends Character {
     public boolean getAtHome() {
         return atHome;
     }
-    
-    /** 
+
+    /**
      * The method that allows the raccoon to board
+     * 
      * @param player the user
      */
     public void onBoard(Player player) {
@@ -34,8 +35,9 @@ public class Raccoon extends Character {
         System.out.println("The raccoon is following you!");
     }
 
-    /** 
+    /**
      * The method that allows the raccoon to give the apple to the player
+     * 
      * @param player the user
      */
     public void giveApple(Player player) {
