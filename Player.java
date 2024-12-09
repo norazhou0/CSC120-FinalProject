@@ -60,24 +60,28 @@ public class Player extends Character {
      * @param item able to be examined
      */
     // ACORN, APPLE, DRESS, RECIPE, BOX, TOOL, LAPTOP, BOOK, OKA //
-    public void examine (ItemsExamine item){
-        if (item.equals(ItemsExamine.ACORN)) {
-            // check on the location
-            System.out.println("This is an acorn. squirrels might like it.");
-        } else if (item.equals(ItemsExamine.DRESS)) {
-            System.out.println("This is a white dress from Ivy Day. It contains valuable memories of Smithies, which might be the key to save Smith");
-        } else if (item.equals(ItemsExamine.LAPTOP)) {
-            System.out.println("This is Jordan's laptop. The wallpaper is of his dog, Charlie.");
-        } else if (item.equals(ItemsExamine.APPLE)) {
-            System.out.println("This is an apple from Mountain Day! This might be the key to save Smith.");
-        } else if (item.equals(ItemsExamine.RECIPE)) {
-            System.out.println("This is a recipe from Julia Child. Keep it safe—Smithies 100 years later will still need it for Julia Child Day!");
-        } else if (item.equals(ItemsExamine.TOOL)) {
-            System.out.println("It's Cross. A 19the century silver craft originally stored in SCMA. It's 30 cm tall. Hummm...That's pretty long");
-        } else if (item.equals(ItemsExamine.OKA)) {
-            System.out.println("There is a white dress on the tree. However, you are not tall enough to reach it.");
-        } else {
-            System.out.println("Cannot examine.");
+    public void examine (String input, scMap map){
+        input = input.toLowerCase();
+        int index = locationRow * 10 + locationColumn;
+        if (input.startsWith("examine")) {
+            if (input.contains("acorn") && scMap.hasAcorn(index)) {
+                // check on the location
+                System.out.println("This is an acorn. squirrels might like it.");
+            } else if (input.contains("dress")) {
+                System.out.println("This is a white dress from Ivy Day. It contains valuable memories of Smithies, which might be the key to save Smith");
+            } else if (input.contains("laptop")) {
+                System.out.println("This is Jordan's laptop. The wallpaper is of his dog, Charlie.");
+            } else if (input.contains("apple")) {
+                System.out.println("This is an apple from Mountain Day! This might be the key to save Smith.");
+            } else if (input.contains("recipe")) {
+                System.out.println("This is a recipe from Julia Child. Keep it safe—Smithies 100 years later will still need it for Julia Child Day!");
+            } else if (input.contains("tool")) {
+                System.out.println("It's Cross. A 19the century silver craft originally stored in SCMA. It's 30 cm tall. Hummm...That's pretty long");
+            } else if (input.contains("oak")) {
+                System.out.println("There is a white dress on the tree. However, you are not tall enough to reach it.");
+            } else {
+                System.out.println("Invalid! Cannot examine" + input);
+            }
         }
     }
 
@@ -86,22 +90,21 @@ public class Player extends Character {
      * The method that allows the player to grab items
      * @param item able to be grabbed
      */
-    public void grab(ItemsGrab item) {
-        // Get the name of the item
-        String itemName = item.name();
+    public void grab(String input) {
+        input = input.toLowerCase();
     
         // Allow Acorn to be grabbed multiple times
-        if (itemName.equalsIgnoreCase("ACORN")) {
-            int currentCount = backpack.getOrDefault("ACORN", 0);
+        if (input.equals("acorn")) {
+            int currentCount = backpack.getOrDefault("acorn", 0);
             // Increment the count of Acorn by 1
-            backpack.put("ACORN", currentCount + 1);
-            System.out.println("You've grabbed an acorn! Total acorns: " + backpack.get(itemName));
+            backpack.put("acorn", currentCount + 1);
+            System.out.println("You've grabbed an acorn! Total acorns: " + backpack.get("acorn"));
             return; // Exit early since Acorn has a special rule
         }
     
         // Check if the item is already in the backpack (avoid grab repetitively)
-        if (backpack.containsKey(itemName)) {
-            System.out.println("You already have the " + itemName + " in your backpack!");
+        if (backpack.containsKey(input)) {
+            System.out.println("You already have the " + input + " in your backpack!");
             return; // Exit the method, no further action needed
         }
     
@@ -112,8 +115,8 @@ public class Player extends Character {
     
         // Check backpack capacity
         if (totalNumItem < 20) {
-            backpack.put(itemName, 1); // Add the item to the backpack
-            System.out.println("You grabbed the " + itemName.toLowerCase() + "!");
+            backpack.put(input, 1); // Add the item to the backpack
+            System.out.println("You grabbed the " + input + "!");
         } else {
             this.setAlive(false); // Player dies due to overload
             System.out.println("The backpack is overloaded! Your kayak collapsed! You drowned and died.");
@@ -124,17 +127,17 @@ public class Player extends Character {
      * The method that allows the player to drop items
      * @param item able to be dropped
      */
-    public void drop(ItemsGrab item) {
-        String itemName = item.name();
+    public void drop(String input) {
+        input = input.toLowerCase();
         // Check if the item exists in the backpack and has a count > 0
-        if (this.backpack.containsKey(itemName) && this.backpack.get(itemName) > 0) {
-            int currentCount = this.backpack.get(itemName);
+        if (this.backpack.containsKey(input) && this.backpack.get(input) > 0) {
+            int currentCount = this.backpack.get(input);
             if (currentCount > 1) {
                 // Decrease the count by 1
-                this.backpack.put(itemName, currentCount - 1);
+                this.backpack.put(input, currentCount - 1);
             } else {
                 // Remove the item entirely if the count is 0 after dropping
-                this.backpack.remove(itemName);
+                this.backpack.remove(input);
             }
         } else {
             System.out.println("You don't have that item in your backpack.");
@@ -150,7 +153,7 @@ public class Player extends Character {
             String response = input.nextLine().toLowerCase();
 
             if (response.equals("yes")) {
-                grab(ItemsGrab.ACRON); // Add the acorn to the backpack
+                grab("acorn"); // Add the acorn to the backpack
                 scMap.removeAcorn(index); // Remove the acorn from the map
                 System.out.println("You collected an acorn!");
             } else {
@@ -264,7 +267,7 @@ public class Player extends Character {
         while (exploring) {
             String command = input.nextLine().toLowerCase();
             if (command.equals("examine oak")) {
-                examine(ItemsExamine.OKA); // Use existing examine method
+                examine("oak", null); // Use existing examine method
                 // Check if the player wants to try using a tool
                 System.out.println("Do you want to try using a tool from your backpack to grab the dress? (yes/no)");
                 if (input.nextLine().equalsIgnoreCase("yes")) {
@@ -273,7 +276,7 @@ public class Player extends Character {
                     // Check if the tool exists in the player's backpack
                     if (this.backpack.containsKey(tool)) {
                         System.out.println("You used the " + tool + " to grab the white dress!");
-                        grab(ItemsGrab.DRESS); // Use the grab method to add the dress to the backpack
+                        grab("dress"); // Use the grab method to add the dress to the backpack
                     } else {
                         System.out.println("You don't have that tool in your backpack. You cannot reach the dress.");
                     }
@@ -307,7 +310,7 @@ public class Player extends Character {
             if (command.equals("examine yellow box")) {
                 System.out.println("There is a tag with some words on the box, but it was blurred by water. You can faintly make out two words: Julia and cook. Do you want to open it? (yes/no)");
                 if (input.nextLine().toLowerCase().equals("yes")) {
-                    grab(ItemsGrab.RECIPE);
+                    grab("recipe");
                     System.out.println("You got Julia Child's recipe!");
                 } else {
                     System.out.println("OK. Do you want to check other box?");
@@ -317,7 +320,7 @@ public class Player extends Character {
             } else if (command.equals("examine white box")) {
                 System.out.println("This box looks familiar. You seem to have seen it in a CSC class before. Do you want to open it? (yes/no)");
                 if (input.nextLine().toLowerCase().equals("yes")) {
-                    grab(ItemsGrab.LAPTOP);
+                    grab("laptop");
                     System.out.println("You got Jordan's laptop!");
                 } else {
                     System.out.println("OK. Do you want to check other box?");
@@ -327,8 +330,8 @@ public class Player extends Character {
             } else if (command.equals("examine blue box")) {
                 System.out.println("The box is small and old. You’ve never seen it before. Do you want to open it? (yes/no)");
                 if (input.nextLine().toLowerCase().equals("yes")) {
-                    grab(ItemsGrab.BOOK);
-                    System.out.println("You got a mysterious book!");
+                    grab("book");
+                    System.out.println("You got a mysterious book! The book says if you want to save Smith, you must collect all the things that's contain smithies' happy memories.");
                 } else {
                     System.out.println("OK. Do you want to check other box?");
                 }
@@ -337,7 +340,7 @@ public class Player extends Character {
             } else if (command.equals("examine silver box")) {
                 System.out.println("The box is big and heavy. Do you want to open it? (yes/no)");
                 if (input.nextLine().toLowerCase().equals("yes")) {
-                    grab(ItemsGrab.TOOL);
+                    grab("tool");
                     System.out.println("You got a Cross tool!");
                 } else {
                     System.out.println("OK. Do you want to check other box?");
