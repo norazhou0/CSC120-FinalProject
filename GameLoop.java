@@ -7,6 +7,7 @@ public class GameLoop {
         // Create a player instance
         Player myPlayer = new Player("player", true, 5, 4, null);
         scMap map = new scMap();
+        Raccoon raccoon = new Raccoon("Raccoon", true, 6, 6);
 
 
         // This is a "flag" to let us know when the loop should end
