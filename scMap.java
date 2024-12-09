@@ -16,7 +16,7 @@ public class scMap {
     }
 
     // Method to set up the Acorn array with 20 true values
-    private void setupAcorn() {
+    void setupAcorn() {
         Random random = new Random();
         int count = 0;
 
@@ -62,8 +62,4 @@ public class scMap {
         }
     }
 
-    public static void main(String[] args) {
-        scMap map = new scMap();
-        map.displayMap();
-    }
 }

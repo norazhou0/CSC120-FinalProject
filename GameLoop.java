@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class GameLoop {
@@ -7,6 +6,8 @@ public class GameLoop {
 
         // Create a player instance
         Player myPlayer = new Player("player", true, 5, 4, null);
+        scMap map = new scMap();
+
 
         // This is a "flag" to let us know when the loop should end
         boolean stillPlaying = true;
@@ -68,6 +69,8 @@ public class GameLoop {
                 if (separatedMove.length == 2) {
                     // Access the direciton to move
                     myPlayer.move(separatedMove[1]);
+                    //System.out.println(myPlayer.getLocationColumn());
+                    //System.out.println(myPlayer.getLocationRow());
                 } else {
                     System.out.println("You must include 'move' and a valid direction.");
                 }
