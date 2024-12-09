@@ -5,7 +5,7 @@ public class GameLoop {
     public static void main(String[] args) {
 
         // Create a player instance
-        Player myPlayer = new Player("Nora", true, 5, 4, null);
+        Player myPlayer = new Player("player", true, 5, 4, null);
         Raccoon raccoon = new Raccoon("Raccoon", true, 6, 2); 
 
         // This is a "flag" to let us know when the loop should end
@@ -70,7 +70,7 @@ public class GameLoop {
                     myPlayer.drop(item);
                 }
             } else if (userResponse.startsWith("MOVE")) {
-                myPlayer.move(userResponse); // Assumes move validation is in the Player class
+                myPlayer.move(userResponse); 
             } else if (userResponse.equalsIgnoreCase("QUIT")) {
                 stillPlaying = false;
                 System.out.println("Exiting the game. Goodbye!");

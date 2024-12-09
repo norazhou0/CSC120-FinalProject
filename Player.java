@@ -68,7 +68,7 @@ public class Player extends Character {
         } else if (item.equals(ItemsExamine.OKA)) {
             System.out.println("There is a white dress on the tree. However, you are not tall enough to reach it.");
         } else {
-            System.out.println("It's just a/an" + item + ".");
+            System.out.println("Cannot examine.");
         }
     }
 
