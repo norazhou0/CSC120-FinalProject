@@ -54,6 +54,7 @@ public class Player extends Character {
     // ACORN, APPLE, DRESS, RECIPE, BOX, TOOL, LAPTOP, BOOK, OKA //
     public void examine (ItemsExamine item){
         if (item.equals(ItemsExamine.ACORN)) {
+            // check on the location
             System.out.println("This is an acorn. squirrels might like it.");
         } else if (item.equals(ItemsExamine.DRESS)) {
             System.out.println("This is a white dress from Ivy Day. It contains valuable memories of Smithies, which might be the key to save Smith");

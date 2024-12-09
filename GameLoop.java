@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class GameLoop {
@@ -28,47 +29,38 @@ public class GameLoop {
         if (!userResponse.equalsIgnoreCase("READY")) {
             stillPlaying = false;
             System.out.println("Goodbye! Come back soon!");
+        } else {System.out.println("You're in the SMITH ADVENTURE.");
         }
 
         // Main game loop
         while (stillPlaying && myPlayer.isAlive()) {
-            System.out.println("You are in the SMITH ADVENTURE. Good luck!");
             System.out.println("Enter a command (examine <item>, grab <item>, drop <item>, move <north/south/west/east>, quit):");
             userResponse = userInput.nextLine().toUpperCase();
-        
+            ItemsExamine item;
             if (userResponse.startsWith("EXAMINE")) {
-                String itemName = userResponse.substring(8).trim().toUpperCase();
-                ItemsExamine item;
-                try {
-                    item = ItemsExamine.valueOf(itemName);
-                } catch (IllegalArgumentException e) {
-                    item = null; // Assign null or skip execution on invalid input
+                String[] seperatedResponse = userResponse.split(" ");
+                if (seperatedResponse.length <= 1); {
+                    
                 }
-                if (item != null) {
-                    myPlayer.examine(item);
+                seperatedResponse[1] = 
+
+
+                
+                
+                userResponse.toUpperCase().contains(ItemsExamine.valueOf(null, userResponse));
+                myPlayer.examine(item);
                 }
             } else if (userResponse.startsWith("GRAB")) {
-                String itemName = userResponse.substring(5).trim().toUpperCase();
                 ItemsGrab item;
-                try {
-                    item = ItemsGrab.valueOf(itemName);
-                } catch (IllegalArgumentException e) {
-                    item = null;
-                }
-                if (item != null) {
-                    myPlayer.grab(item);
+                item = ItemsGrab.valueOf(item);
+                myPlayer.grab(item);
                 }
             } else if (userResponse.startsWith("DROP")) {
-                String itemName = userResponse.substring(5).trim().toUpperCase();
                 ItemsGrab item;
-                try {
                     item = ItemsGrab.valueOf(itemName);
-                } catch (IllegalArgumentException e) {
-                    item = null;
                 }
-                if (item != null) {
-                    myPlayer.drop(item);
-                }
+                myPlayer.drop(item);
+
             } else if (userResponse.startsWith("MOVE")) {
                 myPlayer.move(userResponse); 
             } else if (userResponse.equalsIgnoreCase("QUIT")) {
