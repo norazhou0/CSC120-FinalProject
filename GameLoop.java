@@ -163,9 +163,9 @@ public class GameLoop {
                                 System.out.println(
                                         "The box is small and old. You've never seen it before. Do you want to open it? (yes/no)");
                                 if (userInput.nextLine().toLowerCase().equals("yes")) {
-                                    myPlayer.grab("book");
+                                    myPlayer.grab("apple");
                                     System.out.println(
-                                            "You got a mysterious book! The book says if you want to save Smith, you must collect all the things that contain smithies' happy memories.");
+                                            "You got an apple from 1st mountain day. It never corrupts.");
                                 } else {
                                     System.out.println("OK. Do you want to check other box?");
                                 }

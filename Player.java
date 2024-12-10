@@ -333,32 +333,32 @@ public class Player extends Character {
      * 
      * @param raccoon
      */
-    public void interactWithRaccoon(Raccoon raccoon) {
-        if (this.getLocationRow() == raccoon.getLocationRow()
-                && this.getLocationColumn() == raccoon.getLocationColumn()) {
-            System.out.println(
-                    "You encounter a rabbit raccoon. It looks at you with pleading face and says, 'I've lost my way to home. Can you take me to the forest?'");
+    // public void interactWithRaccoon(Raccoon raccoon) {
+    //     if (this.getLocationRow() == raccoon.getLocationRow()
+    //             && this.getLocationColumn() == raccoon.getLocationColumn()) {
+    //         System.out.println(
+    //                 "You encounter a rabbit raccoon. It looks at you with pleading face and says, 'I've lost my way to home. Can you take me to the forest?'");
 
-            if (input.nextLine().toLowerCase().equals("yes")) {
-                raccoon.onBoard(this); // Raccoon follows the player
-                System.out.println("You agreed to help the raccoon. Lead it to the forest!");
-            } else {
-                System.out.println("The raccoon looks disappointed and stays put.");
-            }
-        }
-    }
+    //         if (input.nextLine().toLowerCase().equals("yes")) {
+    //             raccoon.onBoard(this); // Raccoon follows the player
+    //             System.out.println("You agreed to help the raccoon. Lead it to the forest!");
+    //         } else {
+    //             System.out.println("The raccoon looks disappointed and stays put.");
+    //         }
+    //     }
+    // }
 
     /**
      * The method that allows the raccoon to give the player the apple
      * 
      * @param raccoon
      */
-    public void checkLocationForRaccoon(Raccoon raccoon) {
-        if (this.getPlace() == Place.FOREST && !raccoon.getAtHome()) {
-            raccoon.giveApple(this); // Trigger the raccoon giving the apple
-            System.out.println("The raccoon thanks to you and gives you an apple!");
-        }
-    }
+    // public void checkLocationForRaccoon(Raccoon raccoon) {
+    //     if (this.getPlace() == Place.FOREST && !raccoon.getAtHome()) {
+    //         raccoon.giveApple(this); // Trigger the raccoon giving the apple
+    //         System.out.println("The raccoon thanks to you and gives you an apple!");
+    //     }
+    // }
 
 
 }
