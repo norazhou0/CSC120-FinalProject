@@ -31,7 +31,7 @@ public class GameLoop {
 
         // Main game loop
         while (stillPlaying && myPlayer.isAlive()) {
-            System.out.println("Enter a command (examine <item>, drop <item>, move <direction>, quit):");
+            System.out.println("Enter a command (move (north/west/south/east), examine, drop, quit):");
             userResponse = userInput.nextLine().toLowerCase();
 
             if (userResponse.startsWith("examine")) {
@@ -52,8 +52,8 @@ public class GameLoop {
                 String[] parts = userResponse.split(" ");
                 if (parts.length == 2) {
                     myPlayer.move(parts[1]);
-                    System.out.println("Player location: (" + myPlayer.getLocationRow() + ", "
-                            + myPlayer.getLocationColumn() + ")");
+                    System.out.println("Player location: (" + myPlayer.getLocationColumn() + ", "
+                            + myPlayer.getLocationRow() + ")");
                     
                     //meet Squirhold
                     if (myPlayer.getLocationRow() == 4 && myPlayer.getLocationColumn() == 7) {
@@ -141,7 +141,7 @@ public class GameLoop {
                             System.out.println("What would you like to do? (type 'examine [box color]' or 'leave')");
                             // Yellow box with recipe
                             String command = userInput.nextLine().toLowerCase();
-                            if (command.equals("examine yellow box")) {
+                            if (command.contains("examine yellow")) {
                                 System.out.println(
                                         "There is a tag with some words on the box, but it was blurred by water. You can faintly make out two words: Julia and cook. Do you want to open it? (yes/no)");
                                 if (userInput.nextLine().toLowerCase().equals("yes")) {
@@ -152,7 +152,7 @@ public class GameLoop {
                                 }
 
                                 // White box with laptop
-                            } else if (command.equals("examine white box")) {
+                            } else if (command.contains("examine white")) {
                                 System.out.println(
                                         "This box looks familiar. You seem to have seen it in a CSC class before. Do you want to open it? (yes/no)");
                                 if (userInput.nextLine().toLowerCase().equals("yes")) {
@@ -163,7 +163,7 @@ public class GameLoop {
                                 }
 
                                 // Blue box with book
-                            } else if (command.equals("examine blue box")) {
+                            } else if (command.contains("examine blue")) {
                                 System.out.println(
                                         "The box is small and old. You've never seen it before. Do you want to open it? (yes/no)");
                                 if (userInput.nextLine().toLowerCase().equals("yes")) {
@@ -175,7 +175,7 @@ public class GameLoop {
                                 }
 
                                 // Silver box with tool
-                            } else if (command.equals("examine silver box")) {
+                            } else if (command.contains("examine silver")) {
                                 System.out.println("The box is big and heavy. Do you want to open it? (yes/no)");
                                 if (userInput.nextLine().toLowerCase().equals("yes")) {
                                     myPlayer.grab("cross");
@@ -202,6 +202,8 @@ public class GameLoop {
                     } else {
                         System.out.println("Please specify a direction to move.");
                     }
+                } else {
+                    System.out.println("Invalid command. Please try again.");
                 }
             } else if (userResponse.equalsIgnoreCase("quit")) {
                 stillPlaying = false;

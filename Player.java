@@ -72,9 +72,7 @@ public class Player extends Character {
      */
     // ACORN, APPLE, DRESS, RECIPE, BOX, TOOL, LAPTOP, BOOK, OKA //
     public void examine(String input) {
-        input = input.toLowerCase();
-        int index = locationRow * 10 + locationColumn;
-        if (input.contains("acorn") && map.hasAcorn(index)) {
+        if (input.contains("acorn")) {
             // check on the location
             System.out.println("This is an acorn. squirrels might like it.");
         } else if (input.contains("dress")) {
@@ -107,7 +105,7 @@ public class Player extends Character {
 
         // Allow Acorn to be grabbed multiple times
         if (input.equals("acorn")) {
-            int currentCount = backpack.getOrDefault("acorn", 20);
+            int currentCount = backpack.getOrDefault("acorn", 0);
             // Increment the count of Acorn by 1
             backpack.put("acorn", currentCount + 1);
             System.out.println("You've grabbed an acorn! Total acorns: " + backpack.get("acorn"));
@@ -126,7 +124,7 @@ public class Player extends Character {
         }
 
         // Check backpack capacity
-        if (totalNumItem < 20) {
+        if (totalNumItem < 10) {
             backpack.put(input, 1); // Add the item to the backpack
             System.out.println("You grabbed the " + input + "!");
         } else {
@@ -202,8 +200,8 @@ public class Player extends Character {
             System.out.println("Squirrel Mama: Sorry, you don't have the food we want :(");
         } else {
             int acornCount = backpack.get("acorn");
-            if (acornCount >= 20) {
-                backpack.put("acorn", acornCount - 20);
+            if (acornCount >= 5) {
+                backpack.put("acorn", acornCount - 5);
                 this.canEnterLibrary = true;
                 System.out.println(
                         "Squirrel Baby: Thank you so much! We will take 20 acorns! Do you want to go to the library? We will help you with that.");
@@ -261,39 +259,5 @@ public class Player extends Character {
 
         }
     }
-
-
-    /**
-     * The method that allows the player to interact with raccoon
-     * 
-     * @param raccoon
-     */
-    // public void interactWithRaccoon(Raccoon raccoon) {
-    //     if (this.getLocationRow() == raccoon.getLocationRow()
-    //             && this.getLocationColumn() == raccoon.getLocationColumn()) {
-    //         System.out.println(
-    //                 "You encounter a rabbit raccoon. It looks at you with pleading face and says, 'I've lost my way to home. Can you take me to the forest?'");
-
-    //         if (input.nextLine().toLowerCase().equals("yes")) {
-    //             raccoon.onBoard(this); // Raccoon follows the player
-    //             System.out.println("You agreed to help the raccoon. Lead it to the forest!");
-    //         } else {
-    //             System.out.println("The raccoon looks disappointed and stays put.");
-    //         }
-    //     }
-    // }
-
-    /**
-     * The method that allows the raccoon to give the player the apple
-     * 
-     * @param raccoon
-     */
-    // public void checkLocationForRaccoon(Raccoon raccoon) {
-    //     if (this.getPlace() == Place.FOREST && !raccoon.getAtHome()) {
-    //         raccoon.giveApple(this); // Trigger the raccoon giving the apple
-    //         System.out.println("The raccoon thanks to you and gives you an apple!");
-    //     }
-    // }
-
 
 }
