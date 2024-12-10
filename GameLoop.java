@@ -5,27 +5,21 @@ public class GameLoop {
     public static void main(String[] args) {
 
         // Create a player instance
-        Player myPlayer = new Player("player", true, 5, 4, null);
-        scMap map = new scMap();
-        Raccoon raccoon = new Raccoon("Raccoon", true, 6, 6);
+        Player myPlayer = new Player("player", true, 8, 4, null);
 
-        // This is a "flag" to let us know when the loop should end
+        // Flag to control the game loop
         boolean stillPlaying = true;
 
-        // We'll use this to get input from the user.
+        // User input scanner
         Scanner userInput = new Scanner(System.in);
-
-        // Storage for user's responses
-        String userResponse = "";
 
         // Game opening
         System.out.println("******************");
         System.out.println("WELCOME TO SMITH ADVENTURE");
         System.out.println("******************");
-        System.out.println("Enter ready to start, anything else to exit.");
+        System.out.println("Enter 'ready' to start, anything else to exit.");
 
-        // Check if the player is ready
-        userResponse = userInput.nextLine().toLowerCase();
+        String userResponse = userInput.nextLine().toLowerCase();
         if (!userResponse.equalsIgnoreCase("ready")) {
             stillPlaying = false;
             System.out.println("Goodbye! Come back soon!");
@@ -35,36 +29,66 @@ public class GameLoop {
 
         // Main game loop
         while (stillPlaying && myPlayer.isAlive()) {
-            System.out.println(
-                    "Please enter a command (examine <item>, drop <item>, move <north/south/west/east>, quit):");
+            System.out.println("Enter a command (examine <item>, drop <item>, move <direction>, quit):");
             userResponse = userInput.nextLine().toLowerCase();
 
             if (userResponse.startsWith("examine")) {
-                // Create an array to store the separated response
-                String[] separatedExamine = userResponse.split(" ");
-                if (separatedExamine.length == 2) {
-                    // Access the item to be examined
-                    myPlayer.examine(separatedExamine[1]);
+                String[] parts = userResponse.split(" ");
+                if (parts.length == 2) {
+                    myPlayer.examine(parts[1]);
                 } else {
-                    System.out.println("You must include 'examine' and a valid object.");
+                    System.out.println("Please provide an item to examine.");
                 }
             } else if (userResponse.startsWith("drop")) {
-                String[] separatedDrop = userResponse.split(" ");
-                if (separatedDrop.length == 2) {
-                    // Access the item to be dropped
-                    myPlayer.drop(separatedDrop[1]);
+                String[] parts = userResponse.split(" ");
+                if (parts.length == 2) {
+                    myPlayer.drop(parts[1]);
                 } else {
-                    System.out.println("You must include 'drop' and a valid object.");
+                    System.out.println("Please provide an item to drop.");
                 }
             } else if (userResponse.startsWith("move")) {
-                String[] separatedMove = userResponse.split(" ");
-                if (separatedMove.length == 2) {
-                    // Access the direciton to move
-                    myPlayer.move(separatedMove[1]);
-                    System.out.println(myPlayer.getLocationColumn());
-                    System.out.println(myPlayer.getLocationRow());
+                String[] parts = userResponse.split(" ");
+                if (parts.length == 2) {
+                    myPlayer.move(parts[1]);
+                    System.out.println("Player location: (" + myPlayer.getLocationRow() + ", " + myPlayer.getLocationColumn() + ")");
+
+                    if (myPlayer.getPlace() == Place.FOREST) {
+                        System.out.println("You are in the forest. Explore the oak tree? (yes/no)");
+                        String command = userInput.nextLine().toLowerCase();
+                        boolean exploring = true;
+
+                        while (exploring) {
+                            if (command.equals("yes")) {
+                                myPlayer.examine("oak");
+                                System.out.println("Use a tool to grab the dress? (yes/no)");
+                                command = userInput.nextLine().toLowerCase();
+
+                                if (command.equals("yes")) {
+                                    System.out.println("Which tool would you like to use?");
+                                    command = userInput.nextLine();
+
+                                    if (myPlayer.getBackpack().containsKey(command) && myPlayer.getBackpack().get(command) > 0) {
+                                        System.out.println("You used the " + command + " to grab the dress!");
+                                        myPlayer.grab("dress");
+                                    } else {
+                                        System.out.println("You don't have that tool.");
+                                    }
+                                } else {
+                                    System.out.println("You left the dress in the tree.");
+                                }
+                            } else if (command.equals("leave")) {
+                                System.out.println("You left the forest.");
+                                exploring = false;
+                                myPlayer.setLocationColumn(9);
+                                myPlayer.setLocationRow(9);
+                            } else {
+                                System.out.println("Type 'leave' to exit.");
+                                command = userInput.nextLine().toLowerCase();
+                            }
+                        }
+                    }
                 } else {
-                    System.out.println("You must include 'move' and a valid direction.");
+                    System.out.println("Please specify a direction to move.");
                 }
             } else if (userResponse.equalsIgnoreCase("quit")) {
                 stillPlaying = false;
@@ -74,14 +98,12 @@ public class GameLoop {
             }
         }
 
-        // Close the sanner
+        // Close scanner
         userInput.close();
 
-        // Exit the game when the player wins
+        // Win condition
         if (myPlayer.getWin()) {
-            stillPlaying = false;
-            System.out.println("Well done! Bye~");
+            System.out.println("Congratulations! You've won the game. Goodbye!");
         }
-
     }
 }

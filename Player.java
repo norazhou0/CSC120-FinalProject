@@ -170,20 +170,20 @@ public class Player extends Character {
 
         // Handle out-of-bounds scenarios
         if (this.getLocationRow() < 0) {
-            handleWaterfall();
+            this.place = Place.WATERFALL;
         } else if (this.getLocationRow() > 9) {
             this.place = Place.FOREST;
-            handleForest();
+            //handleForest();
         } else if (this.getLocationColumn() < 0) {
             if (canEnterLibrary) {
                 this.place = Place.LIBRARY;
-                handleLibrary();
+                //handleLibrary();
             } else {
                 System.out.println("Sorry, you cannot enter the library yet!");
             }
         } else if (this.getLocationColumn() > 9) {
             this.place = Place.FOREST;
-            handleStatue();
+            //handleStatue();
         }
     }
 
@@ -248,7 +248,7 @@ public class Player extends Character {
     /**
      * The method that handles the waterfall scenario
      */
-    private void handleWaterfall() {
+    public void handleWaterfall() {
         System.out.println("You fell into a waterfall!");
         // Generate a random number between 0 and 1
         if (Math.random() < 0.5) {
@@ -262,62 +262,11 @@ public class Player extends Character {
         }
     }
 
-    /**
-     * The method that handles the forest scenario
-     */
-    private void handleForest() {
-        System.out.println("You wandered into the forest. The air feels different here...");
-        System.out.println("There looks to be something in the Oak. Do you want to take a closer look at this oak? (yes/no)");
-
-        Scanner scanner = new Scanner(System.in);
-        boolean exploring = true; // Keep track of the exploration status
-
-        while (exploring) {
-            String command = scanner.nextLine().toLowerCase();
-
-            if (command.equals("yes")) {
-                examine("oak"); // Use your existing examine method
-
-                // Check if the player wants to try using a tool
-                System.out.println("Do you want to try using a tool from your backpack to grab the dress? (yes/no)");
-                String useToolResponse = scanner.nextLine().toLowerCase();
-
-                if (useToolResponse.equals("yes")) {
-                    System.out.println("Which tool would you like to use?");
-                    String tool = scanner.nextLine();
-
-                    // Check if the tool exists in the player's backpack
-                    if (this.backpack.containsKey(tool) && this.backpack.get(tool) > 0) {
-                        System.out.println("You used the " + tool + " to grab the white dress!");
-                        grab("dress"); // Use the grab method to add the dress to the backpack
-                    } else {
-                        System.out.println("You don't have that tool in your backpack. You cannot reach the dress.");
-                    }
-                } else {
-                    System.out.println("You decided not to use a tool and left the dress in the tree.");
-                }
-            } else if (command.equals("leave")) {
-                System.out.println("You left the forest.");
-                exploring = false; // End the loop
-                setLocationColumn(0);
-                setLocationRow(0);
-            } else if (command.equals("no")) {
-                System.out.println("OK. Do you want to leave?");
-            } else {
-                System.out.println("Unknown command. Type 'leave' if you want to leave.");
-            }
-        }
-        scanner.close();
-        //Exception in thread "main" java.util.NoSuchElementException: No line found
-        //at java.base/java.util.Scanner.nextLine(Scanner.java:1660)
-        //at GameLoop.main(GameLoop.java:40)
-        //(base) ReneedeMacBook-Pro:CSC120-FinalProject renee$ 
-    }
 
     /**
      * The method that handles the library scenario
      */
-    private void handleLibrary() {
+    public void handleLibrary() {
         System.out.println(
                 "You entered the library. There are four mysterious boxes here: one is yellow, one is blue, one is white, and one is silver.");
 
@@ -387,7 +336,7 @@ public class Player extends Character {
     /**
      * The method that handles the statue scenario
      */
-    private void handleStatue() {
+    public void handleStatue() {
         System.out.println(
                 "It's the Lanning Fountain in front of the Burton! LOOK!!! The statue is talking and it's glowing.");
         System.out.println(
@@ -441,9 +390,8 @@ public class Player extends Character {
     }
 
     public static void main(String[] args) {
-        Player player = new Player("player", true, 5, 4, null);
-        System.out.println(player.getLocationColumn());
-        System.out.println(player.getLocationRow());
+        scMap map = new scMap();
+        Raccoon raccoon = new Raccoon("Raccoon", true, 6, 6);
     }
 
 }
