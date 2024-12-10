@@ -36,11 +36,11 @@ public class scMap {
         }
     }
 
-    public static boolean hasAcorn(int index) {
+    public boolean hasAcorn(int index) {
         return acorn[index];
     }
 
-    public static void removeAcorn(int index) {
+    public void removeAcorn(int index) {
         acorn[index] = false;
     }
 
@@ -60,6 +60,11 @@ public class scMap {
             if ((i + 1) % 10 == 0)
                 System.out.println(); // New line every 10 values
         }
+    }
+
+    public static void main(String[] args) {
+        scMap map = new scMap();
+        map.displayMap();
     }
 
 }

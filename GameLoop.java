@@ -5,7 +5,8 @@ public class GameLoop {
     public static void main(String[] args) {
 
         // Create a player instance
-        Player myPlayer = new Player("player", true, 8, 4, null);
+        scMap map = new scMap();
+        Player myPlayer = new Player("player", true, 9, 9, new Scanner(System.in), map);
 
         // Flag to control the game loop
         boolean stillPlaying = true;
@@ -52,6 +53,23 @@ public class GameLoop {
                     myPlayer.move(parts[1]);
                     System.out.println("Player location: (" + myPlayer.getLocationRow() + ", " + myPlayer.getLocationColumn() + ")");
 
+
+                    int index = myPlayer.locationRow * 10 + myPlayer.locationColumn;
+                    if (map.hasAcorn(index)) { // Use the instance map
+                        System.out.println("There is an acorn here. Do you want to collect it? (yes/no)");
+                        String response = userInput.nextLine().toLowerCase();
+            
+                        if (response.equals("yes")) {
+                            myPlayer.grab("acorn"); // Add the acorn to the backpack
+                            map.removeAcorn(index); // Remove the acorn from the map
+                            System.out.println("You collected an acorn!");
+                        } else {
+                            System.out.println("You chose not to collect the acorn.");
+                        }
+                    } else {
+                        System.out.println("There's no acorn here.");
+                    }
+
                     if (myPlayer.getPlace() == Place.FOREST) {
                         System.out.println("You are in the forest. Explore the oak tree? (yes/no)");
                         String command = userInput.nextLine().toLowerCase();
@@ -79,6 +97,7 @@ public class GameLoop {
                             } else if (command.equals("leave")) {
                                 System.out.println("You left the forest.");
                                 exploring = false;
+                                myPlayer.setPlace(Place.GRID);
                                 myPlayer.setLocationColumn(9);
                                 myPlayer.setLocationRow(9);
                             } else {

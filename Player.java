@@ -8,6 +8,7 @@ public class Player extends Character {
     private boolean alive = true;
     private boolean win = false;
     private Scanner input;
+    private scMap map;
 
     /**
      * Constructor for Player
@@ -18,10 +19,12 @@ public class Player extends Character {
      * @param input          the input of the player
      */
 
-    public Player(String name, boolean canOnboard, int locationRow, int locationColumn, Scanner input) {
-        super(name, canOnboard, locationRow, locationColumn);
-        this.backpack = new Hashtable<>();
-        this.input = input;
+
+    public Player(String name, boolean canOnboard, int locationRow, int locationColumn, Scanner input, scMap map) {
+         super(name, canOnboard, locationRow, locationColumn);
+         this.map = map; // Assign the map
+         this.backpack = new Hashtable<>();
+         this.input = input;
     }
 
     /* Accessors */
@@ -58,6 +61,10 @@ public class Player extends Character {
         this.locationRow = row;
     }
 
+    public void setPlace(Place place) {
+        this.place = place;
+    }
+
     /**
      * The method that allows the player to examine items
      * 
@@ -67,7 +74,7 @@ public class Player extends Character {
     public void examine(String input) {
         input = input.toLowerCase();
         int index = locationRow * 10 + locationColumn;
-        if (input.contains("acorn") && scMap.hasAcorn(index)) {
+        if (input.contains("acorn") && map.hasAcorn(index)) {
             // check on the location
             System.out.println("This is an acorn. squirrels might like it.");
         } else if (input.contains("dress")) {
@@ -190,23 +197,23 @@ public class Player extends Character {
     /**
      * The method that allows the player to collect acorns
      */
-    public void collectAcorn() {
-        int index = locationRow * 10 + locationColumn;
-        if (scMap.hasAcorn(index)) { // Check if an acorn exists at the current position
-            System.out.println("There is an acorn here. Do you want to collect it? (yes/no)");
-            String response = input.nextLine().toLowerCase();
+    // public void collectAcorn() {
+    //     int index = locationRow * 10 + locationColumn;
+    //     if (map.hasAcorn(index)) { // Use the instance map
+    //         System.out.println("There is an acorn here. Do you want to collect it? (yes/no)");
+    //         String response = input.nextLine().toLowerCase();
 
-            if (response.equals("yes")) {
-                grab("acorn"); // Add the acorn to the backpack
-                scMap.removeAcorn(index); // Remove the acorn from the map
-                System.out.println("You collected an acorn!");
-            } else {
-                System.out.println("You chose not to collect the acorn.");
-            }
-        } else {
-            System.out.println("There's no acorn here.");
-        }
-    }
+    //         if (response.equals("yes")) {
+    //             grab("acorn"); // Add the acorn to the backpack
+    //             map.removeAcorn(index); // Remove the acorn from the map
+    //             System.out.println("You collected an acorn!");
+    //         } else {
+    //             System.out.println("You chose not to collect the acorn.");
+    //         }
+    //     } else {
+    //         System.out.println("There's no acorn here.");
+    //     }
+    // }
 
     /**
      * The method that allows the player to access library
@@ -389,9 +396,5 @@ public class Player extends Character {
         }
     }
 
-    public static void main(String[] args) {
-        scMap map = new scMap();
-        Raccoon raccoon = new Raccoon("Raccoon", true, 6, 6);
-    }
 
 }
