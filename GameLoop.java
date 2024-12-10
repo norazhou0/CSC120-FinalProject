@@ -24,7 +24,8 @@ public class GameLoop {
             stillPlaying = false;
             System.out.println("Goodbye! Come back soon!");
         } else {
-            System.out.println("You're in the SMITH ADVENTURE.");
+            System.out.println(
+                    "You're in the SMITH ADVENTURE. One day, there is a flood disaster happening on a hypothetical Smith Campus. It has covered all major routes, and everyone has disappeared. You are on a kayak able to move around and collect certain items trying to save Smith. You can get to the library, waterfall, statue, and forest. You may also encounter animals that can help you.");
         }
 
         // Main game loop
@@ -50,7 +51,8 @@ public class GameLoop {
                 String[] parts = userResponse.split(" ");
                 if (parts.length == 2) {
                     myPlayer.move(parts[1]);
-                    System.out.println("Player location: (" + myPlayer.getLocationRow() + ", " + myPlayer.getLocationColumn() + ")");
+                    System.out.println("Player location: (" + myPlayer.getLocationRow() + ", "
+                            + myPlayer.getLocationColumn() + ")");
 
                     if (myPlayer.getPlace() == Place.FOREST) {
                         System.out.println("You are in the forest. Explore the oak tree? (yes/no)");
@@ -67,7 +69,8 @@ public class GameLoop {
                                     System.out.println("Which tool would you like to use?");
                                     command = userInput.nextLine();
 
-                                    if (myPlayer.getBackpack().containsKey(command) && myPlayer.getBackpack().get(command) > 0) {
+                                    if (myPlayer.getBackpack().containsKey(command)
+                                            && myPlayer.getBackpack().get(command) > 0) {
                                         System.out.println("You used the " + command + " to grab the dress!");
                                         myPlayer.grab("dress");
                                     } else {
