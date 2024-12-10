@@ -188,7 +188,7 @@ public class Player extends Character {
                 System.out.println("Sorry, you cannot enter the library yet!");
             }
         } else if (this.getLocationColumn() > 9) {
-            this.place = Place.FOREST;
+            this.place = Place.STATUE;
         }
     }
 
@@ -238,72 +238,6 @@ public class Player extends Character {
 
 
     /**
-     * The method that handles the library scenario
-     */
-    public void handleLibrary() {
-        System.out.println("You entered the library. There are four mysterious boxes here: one is yellow, one is blue, one is white, and one is silver.");
-        boolean exploring = true;
-        while (exploring) {
-            System.out.println("What would you like to do? (type 'examine [box color]' or 'leave')");
-            String command = input.nextLine().toLowerCase();
-
-            // Yellow box with recipe
-            if (command.equals("examine yellow box")) {
-                System.out.println(
-                        "There is a tag with some words on the box, but it was blurred by water. You can faintly make out two words: Julia and cook. Do you want to open it? (yes/no)");
-                if (input.nextLine().toLowerCase().equals("yes")) {
-                    grab("recipe");
-                    System.out.println("You got Julia Child's recipe!");
-                } else {
-                    System.out.println("OK. Do you want to check other box?");
-                }
-
-                // White box with laptop
-            } else if (command.equals("examine white box")) {
-                System.out.println(
-                        "This box looks familiar. You seem to have seen it in a CSC class before. Do you want to open it? (yes/no)");
-                if (input.nextLine().toLowerCase().equals("yes")) {
-                    grab("laptop");
-                    System.out.println("You got Jordan's laptop!");
-                } else {
-                    System.out.println("OK. Do you want to check other box?");
-                }
-
-                // Blue box with book
-            } else if (command.equals("examine blue box")) {
-                System.out.println(
-                        "The box is small and old. You've never seen it before. Do you want to open it? (yes/no)");
-                if (input.nextLine().toLowerCase().equals("yes")) {
-                    grab("book");
-                    System.out.println(
-                            "You got a mysterious book! The book says if you want to save Smith, you must collect all the things that's contain smithies' happy memories.");
-                } else {
-                    System.out.println("OK. Do you want to check other box?");
-                }
-
-                // Silver box with tool
-            } else if (command.equals("examine silver box")) {
-                System.out.println("The box is big and heavy. Do you want to open it? (yes/no)");
-                if (input.nextLine().toLowerCase().equals("yes")) {
-                    grab("cross");
-                    System.out.println("You got a Cross! It is a silver cross from Ethiopia. It is very long.");
-                } else {
-                    System.out.println("OK. Do you want to check other box?");
-                }
-
-                // Leave library
-            } else if (command.equals("leave")) {
-                System.out.println("You left the library.");
-                exploring = false; // End the loop
-
-                // Catch error
-            } else {
-                System.out.println("Unknown command. Do you want to leave?");
-            }
-        }
-    }
-
-    /**
      * The method that handles the statue scenario
      */
     public void handleStatue() {
@@ -313,9 +247,9 @@ public class Player extends Character {
                 "Statue: You must be the one who can save Smith College. I can help you with that. However, I need three things to release my power.");
         System.out.println(
                 "A dress from Ivy Day. An apple from Mountain Day. And a recipe from Julia Child. Find them and bring them to me!");
-        if (getBackpack().containsKey("APPLE") &&
-                getBackpack().containsKey("DRESS") &&
-                getBackpack().containsKey("RECIPE")) {
+        if (getBackpack().containsKey("apple") &&
+                getBackpack().containsKey("dress") &&
+                getBackpack().containsKey("recipe")) {
                     this.win = true;
             System.out.println("Yay, you saved the Smith Campus!");
         } else {
@@ -323,7 +257,8 @@ public class Player extends Character {
                     "Statue: Sorry! You don't have all the things I need to save smith! Please collect all of them and find me again.");
                     setLocationColumn(9);
                     setLocationRow(9);
-                    this.place = Place.STATUE;
+                    this.place = Place.GRID;
+
         }
     }
 

@@ -6,7 +6,7 @@ public class GameLoop {
 
         // Create a player instance
         scMap map = new scMap();
-        Player myPlayer = new Player("player", true, 3, 7, new Scanner(System.in), map);
+        Player myPlayer = new Player("player", true, 5, 4, new Scanner(System.in), map);
 
         // Flag to control the game loop
         boolean stillPlaying = true;
@@ -129,6 +129,10 @@ public class GameLoop {
                         myPlayer.handleWaterfall();
                     } else if (myPlayer.getPlace() == Place.STATUE) {
                         myPlayer.handleStatue();
+                        if (myPlayer.getWin()) {
+                            System.out.println("Congratulations! You've won the game. Goodbye!");
+                            userInput.close();
+                        }
                     } else if (myPlayer.getPlace() == Place.LIBRARY && myPlayer.getCanEnterLibrary()) {
                         System.out.println("You entered the library. There are four mysterious boxes here: one is yellow, one is blue, one is white, and one is silver.");
                         boolean exploring = true;
@@ -208,7 +212,7 @@ public class GameLoop {
         }
 
         // Close scanner
-        userInput.close();
+        
 
         // Win condition
         if (myPlayer.getWin()) {
