@@ -107,7 +107,7 @@ public class Player extends Character {
 
         // Allow Acorn to be grabbed multiple times
         if (input.equals("acorn")) {
-            int currentCount = backpack.getOrDefault("acorn", 0);
+            int currentCount = backpack.getOrDefault("acorn", 20);
             // Increment the count of Acorn by 1
             backpack.put("acorn", currentCount + 1);
             System.out.println("You've grabbed an acorn! Total acorns: " + backpack.get("acorn"));
@@ -180,77 +180,43 @@ public class Player extends Character {
             this.place = Place.WATERFALL;
         } else if (this.getLocationRow() > 9) {
             this.place = Place.FOREST;
-            //handleForest();
         } else if (this.getLocationColumn() < 0) {
             if (canEnterLibrary) {
                 this.place = Place.LIBRARY;
-                //handleLibrary();
             } else {
+                this.place = Place.LIBRARY;
                 System.out.println("Sorry, you cannot enter the library yet!");
             }
         } else if (this.getLocationColumn() > 9) {
             this.place = Place.FOREST;
-            //handleStatue();
         }
     }
 
-    /**
-     * The method that allows the player to collect acorns
-     */
-    // public void collectAcorn() {
-    //     int index = locationRow * 10 + locationColumn;
-    //     if (map.hasAcorn(index)) { // Use the instance map
-    //         System.out.println("There is an acorn here. Do you want to collect it? (yes/no)");
-    //         String response = input.nextLine().toLowerCase();
-
-    //         if (response.equals("yes")) {
-    //             grab("acorn"); // Add the acorn to the backpack
-    //             map.removeAcorn(index); // Remove the acorn from the map
-    //             System.out.println("You collected an acorn!");
-    //         } else {
-    //             System.out.println("You chose not to collect the acorn.");
-    //         }
-    //     } else {
-    //         System.out.println("There's no acorn here.");
-    //     }
-    // }
+    
 
     /**
      * The method that allows the player to access library
      */
     public void accessLibrary() {
-        if (this.canEnterLibrary) {
-            System.out.println("You have already helped Squirhold! The library is open for you.");
-            return;
-        }
-
-        if (this.locationRow == 4 && this.locationColumn == 7) {
-            System.out.println(
-                    "You saw Squirhold (a family of squirrels). Squirrel Papa says: Can you give us anything to eat? We can't find food because of the flood. If you help us, we will help you too!");
-            String response = input.nextLine().toLowerCase();
-
-            if (response.equals("yes")) {
-                if (!backpack.containsKey("ACORN")) {
-                    System.out.println("Squirrel Mama: Sorry, you don't have the food we want :(");
-                } else {
-                    int acornCount = backpack.get("ACORN");
-                    if (acornCount >= 20) {
-                        backpack.put("ACORN", acornCount - 20);
-                        this.canEnterLibrary = true;
-                        System.out.println(
-                                "Squirrel Baby: Thank you so much! We will take 20 acorns! Do you want to go to the library? We will help you with that.");
-                        System.out
-                                .println("Squirrel Mama runs to the library and says: Now you can enter the library.");
-                    } else {
-                        System.out.println(
-                                "Squirrel Papa: Sorry, we are a big family, and we need more acorns. Please find 20 acorns and then come back to us!");
-                    }
-                }
+        if (!backpack.containsKey("acorn")) {
+            System.out.println("Squirrel Mama: Sorry, you don't have the food we want :(");
+        } else {
+            int acornCount = backpack.get("acorn");
+            if (acornCount >= 20) {
+                backpack.put("acorn", acornCount - 20);
+                this.canEnterLibrary = true;
+                System.out.println(
+                        "Squirrel Baby: Thank you so much! We will take 20 acorns! Do you want to go to the library? We will help you with that.");
+                System.out.println(
+                        "Squirrel Mama runs to the library and says: Now you can enter the library.");
             } else {
-                System.out.println("Squirhold: Okay...");
+                System.out.println(
+                        "Squirrel Papa: Sorry, we are a big family, and we need more acorns. Please find 20 acorns and then come back to us!");
             }
         }
     }
+    
+
 
     /**
      * The method that handles the waterfall scenario
@@ -266,6 +232,7 @@ public class Player extends Character {
             setLocationColumn(0);
             setLocationRow(0);
             System.out.println("You survived the waterfall! Waterfall is dangerous and unpredictable.");
+            this.place =Place.GRID;
         }
     }
 
@@ -274,12 +241,8 @@ public class Player extends Character {
      * The method that handles the library scenario
      */
     public void handleLibrary() {
-        System.out.println(
-                "You entered the library. There are four mysterious boxes here: one is yellow, one is blue, one is white, and one is silver.");
-
-        // Keep track of the exploration status
+        System.out.println("You entered the library. There are four mysterious boxes here: one is yellow, one is blue, one is white, and one is silver.");
         boolean exploring = true;
-
         while (exploring) {
             System.out.println("What would you like to do? (type 'examine [box color]' or 'leave')");
             String command = input.nextLine().toLowerCase();
@@ -360,6 +323,7 @@ public class Player extends Character {
                     "Statue: Sorry! You don't have all the things I need to save smith! Please collect all of them and find me again.");
                     setLocationColumn(9);
                     setLocationRow(9);
+                    this.place = Place.STATUE;
         }
     }
 
