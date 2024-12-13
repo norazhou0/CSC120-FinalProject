@@ -4,7 +4,7 @@ public class scMap {
     private Object[][] grid; // The 10x10 grid
     private static boolean[] acorn; // The boolean array
 
-    // Constructor to initialize the map and Acorn array
+    // Constructor to initialize the map and the Acorn array
     // object 2D array, acorn 1D array. Index in Acorn = row * 10 + column
 
     public scMap() {

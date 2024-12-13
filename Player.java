@@ -2,7 +2,7 @@ import java.util.Hashtable;
 import java.util.Scanner;
 
 public class Player extends Character {
-    private Hashtable<String, Integer> backpack;
+    private Hashtable<String, Integer> backpack; //String: item name; Integer: item count
     private Place place = Place.GRID;
     private boolean canEnterLibrary = false;
     private boolean alive = true;
@@ -12,19 +12,20 @@ public class Player extends Character {
 
     /**
      * Constructor for Player
+     * 
      * @param name           the name of the player
      * @param canOnboard     whether the player can board the kayak
      * @param locationRow    the row on the grid the player is in
      * @param locationColumn the column on the grid the player is in
      * @param input          the input of the player
+     * @param map            the map the player is on
      */
 
-
     public Player(String name, boolean canOnboard, int locationRow, int locationColumn, Scanner input, scMap map) {
-         super(name, canOnboard, locationRow, locationColumn);
-         this.map = map; // Assign the map
-         this.backpack = new Hashtable<>();
-         this.input = input;
+        super(name, canOnboard, locationRow, locationColumn);
+        this.map = map; // Assign the map
+        this.backpack = new Hashtable<>();
+        this.input = input;
     }
 
     /* Accessors */
@@ -68,13 +69,11 @@ public class Player extends Character {
     /**
      * The method that allows the player to examine items
      * 
-     * @param item able to be examined
+     * @param input for examining items
      */
-    // ACORN, APPLE, DRESS, RECIPE, BOX, TOOL, LAPTOP, BOOK, OKA //
     public void examine(String input) {
         if (input.contains("acorn")) {
-            // check on the location
-            System.out.println("This is an acorn. squirrels might like it.");
+            System.out.println("This is an acorn. Squirrels might like it.");
         } else if (input.contains("dress")) {
             System.out.println(
                     "This is a white dress from Ivy Day. It contains valuable memories of Smithies, which might be the key to save Smith");
@@ -84,10 +83,10 @@ public class Player extends Character {
             System.out.println("This is an apple from Mountain Day! This might be the key to save Smith.");
         } else if (input.contains("recipe")) {
             System.out.println(
-                    "This is a recipe from Julia Child. Keep it safe—Smithies 100 years later will still need it for Julia Child Day!");
+                    "This is a recipe from Julia Child. Keep it safe — Smithies 100 years later will still need it for Julia Child Day!");
         } else if (input.contains("tool")) {
             System.out.println(
-                    "It's Cross. A 19the century silver craft originally stored in SCMA. It's 30 cm tall. Hummm...That's pretty long");
+                    "It's Cross. A 19th century silver craft originally stored in SCMA. It's 30 cm tall. Hummm...That's pretty long!");
         } else if (input.contains("oak")) {
             System.out.println("There is a white dress on the tree. However, you are not tall enough to reach it.");
         } else {
@@ -98,7 +97,7 @@ public class Player extends Character {
     /**
      * The method that allows the player to grab items
      * 
-     * @param item able to be grabbed
+     * @param input for grabbing items
      */
     public void grab(String input) {
         input = input.toLowerCase();
@@ -112,7 +111,7 @@ public class Player extends Character {
             return; // Exit early since Acorn has a special rule
         }
 
-        // Check if the item is already in the backpack (avoid grab repetitively)
+        // Check if the item is already in the backpack (avoid grabbing repetitively)
         if (backpack.containsKey(input)) {
             System.out.println("You already have the " + input + " in your backpack!");
             return; // Exit the method, no further action needed
@@ -136,16 +135,15 @@ public class Player extends Character {
     /**
      * The method that allows the player to drop items
      * 
-     * @param item able to be dropped
+     * @param input for dropping items
      */
     public void drop(String input) {
         input = input.toLowerCase();
-        // Check if the item exists in the backpack and has a count > 0
+        // Check if the item exists in the backpack and has a count greater than 0
         if (backpack.containsKey(input) && backpack.get(input) > 0) {
-            int currentCount = backpack.get(input);
-            if (currentCount > 1) {
+            if (backpack.get(input) > 1) {
                 // Decrease the count by 1
-                backpack.put(input, currentCount - 1);
+                backpack.put(input, backpack.get(input) - 1);
             } else {
                 // Remove the item entirely if the count is 0 after dropping
                 backpack.remove(input);
@@ -158,15 +156,16 @@ public class Player extends Character {
 
     /**
      * The method that allows the player to move
+     * 
      * @param input for moving direction
      */
     public void move(String input) {
         if (input.contains("south")) {
-            this.setLocationRow(this.locationRow + 1); 
+            this.setLocationRow(this.locationRow + 1);
         } else if (input.contains("north")) {
-            this.setLocationRow(this.locationRow - 1); 
+            this.setLocationRow(this.locationRow - 1);
         } else if (input.contains("west")) {
-            this.setLocationColumn(this.locationColumn - 1); 
+            this.setLocationColumn(this.locationColumn - 1);
         } else if (input.contains("east")) {
             this.setLocationColumn(this.locationColumn + 1);
         } else {
@@ -190,8 +189,6 @@ public class Player extends Character {
         }
     }
 
-    
-
     /**
      * The method that allows the player to access library
      */
@@ -199,9 +196,8 @@ public class Player extends Character {
         if (!backpack.containsKey("acorn")) {
             System.out.println("Squirrel Mama: Sorry, you don't have the food we want :(");
         } else {
-            int acornCount = backpack.get("acorn");
-            if (acornCount >= 5) {
-                backpack.put("acorn", acornCount - 5);
+            if (backpack.get("acorn") >= 5) {
+                backpack.put("acorn", backpack.get("acorn") - 5);
                 this.canEnterLibrary = true;
                 System.out.println(
                         "Squirrel Baby: Thank you so much! We will take 20 acorns! Do you want to go to the library? We will help you with that.");
@@ -209,12 +205,10 @@ public class Player extends Character {
                         "Squirrel Mama runs to the library and says: Now you can enter the library.");
             } else {
                 System.out.println(
-                        "Squirrel Papa: Sorry, we are a big family, and we need more acorns. Please find 20 acorns and then come back to us!");
+                        "Squirrel Papa: Sorry, we are a big family, and we need more acorns. Please find 5 acorns and then come back to us!");
             }
         }
     }
-    
-
 
     /**
      * The method that handles the waterfall scenario
@@ -227,13 +221,13 @@ public class Player extends Character {
             this.setAlive(false);
             System.out.println("You didn't survive the waterfall... Game over.");
         } else {
+            // Set player location
             setLocationColumn(0);
             setLocationRow(0);
             System.out.println("You survived the waterfall! Waterfall is dangerous and unpredictable.");
-            this.place =Place.GRID;
+            this.place = Place.GRID;
         }
     }
-
 
     /**
      * The method that handles the statue scenario
@@ -245,18 +239,18 @@ public class Player extends Character {
                 "Statue: You must be the one who can save Smith College. I can help you with that. However, I need three things to release my power.");
         System.out.println(
                 "A dress from Ivy Day. An apple from Mountain Day. And a recipe from Julia Child. Find them and bring them to me!");
-        if (getBackpack().containsKey("apple") &&
-                getBackpack().containsKey("dress") &&
+        if (getBackpack().containsKey("dress") &&
+                getBackpack().containsKey("apple") &&
                 getBackpack().containsKey("recipe")) {
-                    this.win = true;
+            this.win = true;
             System.out.println("Yay, you saved the Smith Campus!");
         } else {
             System.out.println(
-                    "Statue: Sorry! You don't have all the things I need to save smith! Please collect all of them and find me again.");
-                    setLocationColumn(9);
-                    setLocationRow(9);
-                    this.place = Place.GRID;
-
+                    "Statue: Sorry! You don't have all the things I need to save Smith! Please collect all of them and find me again.");
+            // Set player location
+            setLocationColumn(9);
+            setLocationRow(9);
+            this.place = Place.GRID;
         }
     }
 

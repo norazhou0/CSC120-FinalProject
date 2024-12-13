@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class GameLoop {
+public class gameLoop {
 
     public static void main(String[] args) {
 
