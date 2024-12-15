@@ -20,8 +20,9 @@ public class gameLoop {
         System.out.println("******************");
         System.out.println("Enter 'ready' to start, anything else to exit.");
 
+        // Get user input
         String userResponse = userInput.nextLine().toLowerCase();
-        if (!userResponse.equalsIgnoreCase("ready")) {
+        if (!userResponse.equals("ready")) {
             stillPlaying = false;
             System.out.println("Goodbye! Come back soon!");
         } else {
@@ -60,7 +61,7 @@ public class gameLoop {
                         if (myPlayer.getCanEnterLibrary()) {
                             System.out.println("You have already helped Squirhold! The library is open for you.");
                         } else {
-                            System.out.println("You saw Squirhold (a family of squirrels). Squirrel Papa says: Can you give us anything to eat? We can't find food because of the flood. If you help us, we will help you too!");
+                            System.out.println("You saw Squirhold (a family of squirrels). Squirrel Papa says: Can you give us anything to eat? We can't find food because of the flood. If you help us, we will help you too! (yes/no)");
                             String response = userInput.nextLine().toLowerCase();
                             if (response.equals("yes")) {
                                 myPlayer.accessLibrary();
@@ -72,9 +73,10 @@ public class gameLoop {
 
                     //collect acorn
                     if (myPlayer.getPlace() == Place.GRID){
+                        // convert location coordinates to grid index
                         int index = myPlayer.getLocationRow() * 10 + myPlayer.getLocationColumn();
                         if (map.hasAcorn(index)) { // Use the instance map
-                            System.out.println("There is an acorn here. Do you want to collect it? (yes/no)");
+                            System.out.println("THERE IS AN ACORN HERE. Do you want to collect it? (yes/no)");
                             String response = userInput.nextLine().toLowerCase();
                             if (response.equals("yes")) {
                                 myPlayer.grab("acorn"); // Add the acorn to the backpack
@@ -116,6 +118,7 @@ public class gameLoop {
                                 }
                             } else if (command.equals("leave")) {
                                 System.out.println("You left the forest.");
+                                //set the player location
                                 myPlayer.setPlace(Place.GRID);
                                 myPlayer.setLocationColumn(9);
                                 myPlayer.setLocationRow(9);
@@ -125,14 +128,21 @@ public class gameLoop {
                                 command = userInput.nextLine().toLowerCase();
                             }
                         }
+
+                    // handle waterfall
                     } else if (myPlayer.getPlace() == Place.WATERFALL) {
                         myPlayer.handleWaterfall();
+
+                    // handle statue
                     } else if (myPlayer.getPlace() == Place.STATUE) {
                         myPlayer.handleStatue();
                         if (myPlayer.getWin()) {
                             System.out.println("Congratulations! You've won the game. Goodbye!");
-                            userInput.close();
+                            stillPlaying = false;
+                            break;
                         }
+
+                    // handle library   
                     } else if (myPlayer.getPlace() == Place.LIBRARY && myPlayer.getCanEnterLibrary()) {
                         System.out.println("You entered the library. There are four mysterious boxes here: one is yellow, one is blue, one is white, and one is silver.");
                         boolean exploring = true;
@@ -187,6 +197,7 @@ public class gameLoop {
                                 // Leave library
                             } else if (command.equals("leave")) {
                                 System.out.println("You left the library.");
+                                // Set player location
                                 myPlayer.setPlace(Place.GRID);
                                 myPlayer.setLocationColumn(0);
                                 myPlayer.setLocationRow(0);
@@ -195,7 +206,7 @@ public class gameLoop {
 
                                 // Catch error
                             } else {
-                                System.out.println("Unknown command. Do you want to leave?");
+                                System.out.println("Unknown command. Do you want to leave? Type 'leave' to exit.");
                                 command = userInput.nextLine().toLowerCase();
                             }
                         }
@@ -213,9 +224,8 @@ public class gameLoop {
             }
         }
 
-        // Close scanner
+        userInput.close();
         
-
         // Win condition
         if (myPlayer.getWin()) {
             System.out.println("Congratulations! You've won the game. Goodbye!");

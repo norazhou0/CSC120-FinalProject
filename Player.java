@@ -200,7 +200,7 @@ public class Player extends Character {
                 backpack.put("acorn", backpack.get("acorn") - 5);
                 this.canEnterLibrary = true;
                 System.out.println(
-                        "Squirrel Baby: Thank you so much! We will take 20 acorns! Do you want to go to the library? We will help you with that.");
+                        "Squirrel Baby: Thank you so much! We will take 5 acorns! Do you want to go to the library? We will help you with that.");
                 System.out.println(
                         "Squirrel Mama runs to the library and says: Now you can enter the library.");
             } else {
