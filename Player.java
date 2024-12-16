@@ -73,24 +73,24 @@ public class Player extends Character {
      */
     public void examine(String input) {
         if (input.contains("acorn")) {
-            System.out.println("This is an acorn. Squirrels might like it.");
+            System.out.println("An acorn. Squirrels might like it.");
         } else if (input.contains("dress")) {
             System.out.println(
-                    "This is a white dress from Ivy Day. It contains valuable memories of Smithies, which might be the key to save Smith");
+                    "A white dress from Ivy Day. It contains valuable memories of Smithies, which might be the key to save Smith");
         } else if (input.contains("laptop")) {
-            System.out.println("This is Jordan's laptop. The wallpaper is of his dog, Charlie.");
+            System.out.println("Jordan's laptop. The wallpaper is of his dog, Charlie.");
         } else if (input.contains("apple")) {
-            System.out.println("This is an apple from Mountain Day! This might be the key to save Smith.");
+            System.out.println("An apple from Mountain Day. This might be the key to save Smith.");
         } else if (input.contains("recipe")) {
             System.out.println(
-                    "This is a recipe from Julia Child. Keep it safe — Smithies 100 years later will still need it for Julia Child Day!");
+                    "A recipe from Julia Child. Keep it safe — Smithies 100 years later will still need it for Julia Child Day!");
         } else if (input.contains("tool")) {
             System.out.println(
-                    "It's Cross. A 19th century silver craft originally stored in SCMA. It's 30 cm tall. Hummm...That's pretty long!");
+                    "Cross. A 19th century silver craft originally stored in SCMA. It's 30 cm tall. Hummm...That's pretty long!");
         } else if (input.contains("oak")) {
             System.out.println("There is a white dress on the tree. However, you are not tall enough to reach it.");
         } else {
-            System.out.println("Invalid! Cannot examine" + input);
+            System.out.println("Invalid! Cannot examine " + input);
         }
     }
 

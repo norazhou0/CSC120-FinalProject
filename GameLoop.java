@@ -55,24 +55,25 @@ public class GameLoop {
                     myPlayer.move(parts[1]);
                     System.out.println("Player location: (" + myPlayer.getLocationColumn() + ", "
                             + myPlayer.getLocationRow() + ")");
-                    
-                    //meet Squirhold
+
+                    // meet Squirhold
                     if (myPlayer.getLocationRow() == 4 && myPlayer.getLocationColumn() == 7) {
                         if (myPlayer.getCanEnterLibrary()) {
                             System.out.println("You have already helped Squirhold! The library is open for you.");
                         } else {
-                            System.out.println("You saw Squirhold (a family of squirrels). Squirrel Papa says: Can you give us anything to eat? We can't find food because of the flood. If you help us, we will help you too! (yes/no)");
+                            System.out.println(
+                                    "You saw Squirhold (a family of squirrels). Squirrel Papa says: Can you give us anything to eat? We can't find food because of the flood. If you help us, we will help you too! (yes/no)");
                             String response = userInput.nextLine().toLowerCase();
                             if (response.equals("yes")) {
                                 myPlayer.accessLibrary();
-                            } else {System.out.println("Squirhold: Okay...");
+                            } else {
+                                System.out.println("Squirhold: Okay...");
                             }
                         }
                     }
-                    
 
-                    //collect acorn
-                    if (myPlayer.getPlace() == Place.GRID){
+                    // collect acorn
+                    if (myPlayer.getPlace() == Place.GRID) {
                         // convert location coordinates to grid index
                         int index = myPlayer.getLocationRow() * 10 + myPlayer.getLocationColumn();
                         if (map.hasAcorn(index)) { // Use the instance map
@@ -90,7 +91,7 @@ public class GameLoop {
                         }
                     }
 
-                    //handle forest
+                    // handle forest
                     if (myPlayer.getPlace() == Place.FOREST) {
                         System.out.println("You are in the forest. Explore the oak tree? (yes/no)");
                         String command = userInput.nextLine().toLowerCase();
@@ -106,19 +107,21 @@ public class GameLoop {
                                     System.out.println("Which tool would you like to use?");
                                     command = userInput.nextLine().toLowerCase();
 
-                                    if (myPlayer.getBackpack().containsKey("cross")
+                                    if (command.equals("cross") && myPlayer.getBackpack().containsKey("cross")
                                             && myPlayer.getBackpack().get("cross") > 0) {
                                         System.out.println("You used the cross to grab the dress!");
                                         myPlayer.grab("dress");
+                                    } else if (command.equals("cross") && !myPlayer.getBackpack().containsKey("cross")) {
+                                        System.out.println("Oops. You don't have cross in your packpack");
                                     } else {
-                                        System.out.println( command + "cannot be used to grab the dress");
+                                        System.out.println(command + " cannot be used to grab the dress.");
                                     }
                                 } else {
                                     System.out.println("You left the dress in the tree.");
                                 }
                             } else if (command.equals("leave")) {
                                 System.out.println("You left the forest.");
-                                //set the player location
+                                // set the player location
                                 myPlayer.setPlace(Place.GRID);
                                 myPlayer.setLocationColumn(9);
                                 myPlayer.setLocationRow(9);
@@ -129,11 +132,11 @@ public class GameLoop {
                             }
                         }
 
-                    // handle waterfall
+                        // handle waterfall
                     } else if (myPlayer.getPlace() == Place.WATERFALL) {
                         myPlayer.handleWaterfall();
 
-                    // handle statue
+                        // handle statue
                     } else if (myPlayer.getPlace() == Place.STATUE) {
                         myPlayer.handleStatue();
                         if (myPlayer.getWin()) {
@@ -142,9 +145,10 @@ public class GameLoop {
                             break;
                         }
 
-                    // handle library   
+                        // handle library
                     } else if (myPlayer.getPlace() == Place.LIBRARY && myPlayer.getCanEnterLibrary()) {
-                        System.out.println("You entered the library. There are four mysterious boxes here: one is yellow, one is blue, one is white, and one is silver.");
+                        System.out.println(
+                                "You entered the library. There are four mysterious boxes here: one is yellow, one is blue, one is white, and one is silver.");
                         boolean exploring = true;
 
                         while (exploring) {
@@ -189,7 +193,8 @@ public class GameLoop {
                                 System.out.println("The box is big and heavy. Do you want to open it? (yes/no)");
                                 if (userInput.nextLine().toLowerCase().equals("yes")) {
                                     myPlayer.grab("cross");
-                                    System.out.println("You got a Cross! It is a silver cross from Ethiopia. It is very long.");
+                                    System.out.println(
+                                            "You got a Cross! It is a silver cross from Ethiopia. It is very long.");
                                 } else {
                                     System.out.println("OK. Do you want to check other box?");
                                 }
@@ -202,7 +207,6 @@ public class GameLoop {
                                 myPlayer.setLocationColumn(0);
                                 myPlayer.setLocationRow(0);
                                 exploring = false; // End the loop
-                                
 
                                 // Catch error
                             } else {
@@ -225,11 +229,5 @@ public class GameLoop {
         }
 
         userInput.close();
-        
-        // Win condition
-        if (myPlayer.getWin()) {
-            System.out.println("Congratulations! You've won the game. Goodbye!");
-        }
     }
 }
-
