@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class gameLoop {
+public class GameLoop {
 
     public static void main(String[] args) {
 
@@ -106,12 +106,12 @@ public class gameLoop {
                                     System.out.println("Which tool would you like to use?");
                                     command = userInput.nextLine().toLowerCase();
 
-                                    if (myPlayer.getBackpack().containsKey(command)
-                                            && myPlayer.getBackpack().get(command) > 0) {
-                                        System.out.println("You used the " + command + " to grab the dress!");
+                                    if (myPlayer.getBackpack().containsKey("cross")
+                                            && myPlayer.getBackpack().get("cross") > 0) {
+                                        System.out.println("You used the cross to grab the dress!");
                                         myPlayer.grab("dress");
                                     } else {
-                                        System.out.println("You don't have that tool.");
+                                        System.out.println( command + "cannot be used to grab the dress");
                                     }
                                 } else {
                                     System.out.println("You left the dress in the tree.");
