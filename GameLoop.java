@@ -226,8 +226,6 @@ public class GameLoop {
             } else {
                 System.out.println("Unknown command. Please try again.");
             }
-        }
-
-        userInput.close();
+        } userInput.close();
     }
 }

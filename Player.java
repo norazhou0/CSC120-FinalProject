@@ -144,6 +144,7 @@ public class Player extends Character {
             if (backpack.get(input) > 1) {
                 // Decrease the count by 1
                 backpack.put(input, backpack.get(input) - 1);
+                System.out.println("You have dropped " + input);
             } else {
                 // Remove the item entirely if the count is 0 after dropping
                 backpack.remove(input);
