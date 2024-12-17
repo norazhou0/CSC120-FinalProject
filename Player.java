@@ -101,36 +101,41 @@ public class Player extends Character {
      */
     public void grab(String input) {
         input = input.toLowerCase();
-
-        // Allow Acorn to be grabbed multiple times
-        if (input.equals("acorn")) {
-            int currentCount = backpack.getOrDefault("acorn", 0);
-            // Increment the count of Acorn by 1
-            backpack.put("acorn", currentCount + 1);
-            System.out.println("You've grabbed an acorn! Total acorns: " + backpack.get("acorn"));
-            return; // Exit early since Acorn has a special rule
-        }
-
-        // Check if the item is already in the backpack (avoid grabbing repetitively)
-        if (backpack.containsKey(input)) {
-            System.out.println("You already have the " + input + " in your backpack!");
-            return; // Exit the method, no further action needed
-        }
-
+    
         int totalNumItem = 0; // Track total items in the backpack
         for (int quantity : backpack.values()) {
             totalNumItem += quantity;
         }
-
-        // Check backpack capacity
-        if (totalNumItem < 10) {
-            backpack.put(input, 1); // Add the item to the backpack
-            System.out.println("You grabbed the " + input + "!");
-        } else {
-            this.setAlive(false); // Player dies due to overload
+    
+        // Special rule for acorn: can collect multiple acorns, but still counts for total items
+        if (input.equals("acorn")) {
+            if (totalNumItem + 1 > 10) { // Check if adding another acorn exceeds the capacity
+                this.setAlive(false);
+                System.out.println("The backpack is overloaded! Your kayak collapsed! You drowned and died.");
+                return;
+            }
+            int currentCount = backpack.getOrDefault("acorn", 0);
+            backpack.put("acorn", currentCount + 1);
+            System.out.println("You've grabbed an acorn! Total acorns: " + backpack.get("acorn"));
+            return;
+        }
+    
+        // For other items: allow only one of each
+        if (backpack.containsKey(input)) {
+            System.out.println("You already have the " + input + " in your backpack!");
+            return;
+        }
+    
+        // Check if adding a new item exceeds the capacity
+        if (totalNumItem + 1 > 10) {
+            this.setAlive(false);
             System.out.println("The backpack is overloaded! Your kayak collapsed! You drowned and died.");
+        } else {
+            backpack.put(input, 1);
+            System.out.println("You grabbed the " + input + "!");
         }
     }
+    
 
     /**
      * The method that allows the player to drop items

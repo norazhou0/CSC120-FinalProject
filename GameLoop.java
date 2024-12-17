@@ -82,7 +82,9 @@ public class GameLoop {
                             if (response.equals("yes")) {
                                 myPlayer.grab("acorn"); // Add the acorn to the backpack
                                 map.removeAcorn(index); // Remove the acorn from the map
-                                System.out.println("You collected an acorn!");
+                                if(myPlayer.isAlive()){
+                                    System.out.println("You collected an acorn!");
+                                }
                             } else {
                                 System.out.println("You chose not to collect the acorn.");
                             }
@@ -214,9 +216,7 @@ public class GameLoop {
                                 command = userInput.nextLine().toLowerCase();
                             }
                         }
-                    } else {
-                        System.out.println("Please specify a direction to move.");
-                    }
+                    } 
                 } else {
                     System.out.println("Invalid command. Please try again.");
                 }
