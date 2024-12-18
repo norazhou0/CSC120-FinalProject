@@ -38,9 +38,5 @@ Using an Object-Oriented Backpack Class
 Instead of directly using a Hashtable for the player's inventory, a dedicated Backpack class could encapsulate inventory management. This class would manage item storage, enforce capacity limits, and handle item-specific rules (e.g., multiple acorns or single-item constraints).
 
 ## Why Against
-1. Increased Complexity:
 Introducing a new class for a relatively simple inventory system adds unnecessary complexity for the current scope of the game.
 Managing an additional class could make the codebase harder to follow for a beginner audience or small team.
-
-2. Limited Current Requirements:
-The current game logic does not require advanced inventory management features like item weight or categorization, making the abstraction redundant.
