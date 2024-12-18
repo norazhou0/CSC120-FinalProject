@@ -27,3 +27,20 @@ If we could give our past selves advice, we would emphasize the importance of pl
 ## Team Dynamics
 
 As for team dynamics, our experience had its highs and lows. The most productive phase was when we initially worked together to write the code. We were highly motivated, considering various challenges and writing substantial portions of the code as though we were constructing a new world. However, when we encountered bugs and difficulties, our productivity slowed, and we tended to procrastinate, hoping the other person would fix the issues. Despite this, on the night before demo day, the tutoring session reignited our motivation. With clear guidance on how to fix the problem, we regained our sense of purpose and became highly productive once more.
+
+# Design Justification
+
+## Current Design
+Backpack Management with Hashtable: The player's inventory (backpack) is implemented using a Hashtable to store items and their quantities. This allows efficient lookups for item presence and count, enabling quick checks when adding, dropping, or examining items.
+
+## Alternative
+Using an Object-Oriented Backpack Class
+Instead of directly using a Hashtable for the player's inventory, a dedicated Backpack class could encapsulate inventory management. This class would manage item storage, enforce capacity limits, and handle item-specific rules (e.g., multiple acorns or single-item constraints).
+
+## Why Against
+1. Increased Complexity:
+Introducing a new class for a relatively simple inventory system adds unnecessary complexity for the current scope of the game.
+Managing an additional class could make the codebase harder to follow for a beginner audience or small team.
+
+2. Limited Current Requirements:
+The current game logic does not require advanced inventory management features like item weight or categorization, making the abstraction redundant.
